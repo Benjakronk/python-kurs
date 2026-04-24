@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min profil – Python-kurs</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .profile-hero {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+        .profile-avatar {
+            font-size: 4em;
+            margin-bottom: 10px;
+        }
+        .profile-name {
+            font-size: 2em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+        .profile-subtitle {
+            color: var(--text-light);
+            font-size: 0.95em;
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 28px;
+            margin: 20px 0;
+        }
+        .section-card h2 {
+            color: white;
+            font-size: 1.2em;
+            margin: 0 0 20px;
+            background: none;
+            -webkit-text-fill-color: white;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .achievement-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            border-radius: 12px;
+            border: 2px solid;
+            transition: transform 0.15s;
+        }
+        .achievement-card:hover { transform: translateY(-2px); }
+
+        .achievement-card.defeated {
+            background: rgba(255, 193, 7, 0.08);
+            border-color: rgba(255, 193, 7, 0.45);
+        }
+        .achievement-card.pending {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        .achievement-sprite {
+            font-size: 2.6em;
+            min-width: 52px;
+            text-align: center;
+            line-height: 1;
+        }
+        .achievement-module {
+            color: #aaa;
+            font-size: 0.72em;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 3px;
+        }
+        .achievement-name {
+            color: white;
+            font-weight: 700;
+            font-size: 0.95em;
+            margin-bottom: 5px;
+        }
+        .status-won  { color: #51cf66; font-size: 0.82em; font-weight: 700; }
+        .status-pending { color: #bbb; font-size: 0.82em; }
+
+        .refight-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid rgba(255, 193, 7, 0.45);
+            border-radius: 6px;
+            color: #ffc107;
+            font-size: 0.78em;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+        .refight-btn:hover { background: rgba(255, 193, 7, 0.28); }
+
+        .danger-card {
+            background: rgba(220, 53, 69, 0.07);
+            border: 2px solid rgba(220, 53, 69, 0.3);
+            border-radius: 16px;
+            padding: 28px;
+            margin: 20px 0;
+        }
+        .danger-card h2 {
+            color: #ff6b6b;
+            font-size: 1.1em;
+            margin: 0 0 6px;
+        }
+        .danger-card p {
+            color: #bbb;
+            margin: 0 0 18px;
+            font-size: 0.9em;
+        }
+        .danger-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+        .btn-danger {
+            background: #dc3545; color: white; border: none;
+            padding: 10px 22px; border-radius: 8px; font-weight: 700;
+            cursor: pointer; font-size: 0.95em; transition: opacity 0.15s, transform 0.15s;
+        }
+        .btn-danger:hover { opacity: 0.85; transform: translateY(-1px); }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1); color: white; border: none;
+            padding: 10px 22px; border-radius: 8px; font-weight: 700;
+            cursor: pointer; font-size: 0.95em; transition: opacity 0.15s, transform 0.15s;
+        }
+        .btn-secondary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+        /* Sound settings */
+        .sound-row {
+            display: flex; align-items: center; gap: 14px; padding: 6px 0;
+        }
+        .sound-label { color: white; font-weight: 600; width: 110px; font-size: 0.92em; flex-shrink: 0; }
+        .toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+        .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+        .toggle-slider {
+            position: absolute; inset: 0; background: #444;
+            border-radius: 24px; cursor: pointer; transition: background 0.2s;
+        }
+        .toggle-slider::before {
+            content: ''; position: absolute;
+            height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background: white; border-radius: 50%; transition: transform 0.2s;
+        }
+        .toggle input:checked + .toggle-slider { background: #28a745; }
+        .toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
+        .vol-slider { flex: 1; accent-color: #ffc107; cursor: pointer; min-width: 0; }
+        .vol-value  { color: #aaa; font-size: 0.82em; width: 42px; text-align: right; flex-shrink: 0; }
+
+        .guest-notice {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .guest-notice h1 { font-size: 2em; color: white; margin-bottom: 12px; }
+        .guest-notice p  { color: var(--text-light); font-size: 1em; }
+        .guest-notice a  { color: #667eea; }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="home-button">
+    <span>🏠</span><span class="home-button-text">Tilbake til kurs</span>
+</a>
+
+<div class="container">
+
+    <!-- Guest state -->
+    <div id="guestNotice" class="guest-notice" style="display:none;">
+        <div class="profile-avatar">👤</div>
+        <h1>Ikke logget inn</h1>
+        <p>Du er ikke logget inn. <a href="index.html">Gå til forsiden</a> for å logge inn og lagre fremgangen din.</p>
+    </div>
+
+    <!-- Logged-in state -->
+    <div id="profileSection" style="display:none;">
+
+        <div class="profile-hero fade-in">
+            <div class="profile-avatar">👤</div>
+            <div class="profile-name" id="profileName"></div>
+            <div class="profile-subtitle">Python-kurs · Dine prestasjoner</div>
+        </div>
+
+        <!-- Boss achievements -->
+        <div class="section-card fade-in">
+            <h2>⚔️ Boss-prestasjoner</h2>
+            <div class="achievements-grid" id="achievementsGrid"></div>
+        </div>
+
+        <!-- Sound settings -->
+        <div class="section-card fade-in">
+            <h2>🔊 Lydinnstillinger (boss-kamp)</h2>
+            <div class="sound-row">
+                <span class="sound-label">Musikk</span>
+                <label class="toggle">
+                    <input type="checkbox" id="musicEnabled">
+                    <span class="toggle-slider"></span>
+                </label>
+                <input type="range" class="vol-slider" id="musicVol" min="0" max="100">
+                <span class="vol-value" id="musicVolLabel"></span>
+            </div>
+            <div class="sound-row">
+                <span class="sound-label">Lydeffekter</span>
+                <label class="toggle">
+                    <input type="checkbox" id="sfxEnabled">
+                    <span class="toggle-slider"></span>
+                </label>
+                <input type="range" class="vol-slider" id="sfxVol" min="0" max="100">
+                <span class="vol-value" id="sfxVolLabel"></span>
+            </div>
+        </div>
+
+        <!-- Danger zone -->
+        <div class="danger-card fade-in">
+            <h2>⚠️ Farlig sone</h2>
+            <p>Nullstill sletter all lokal fremgang permanent og kan ikke angres.</p>
+            <div class="danger-actions">
+                <button class="btn-danger" id="resetBtn">🗑 Nullstill all fremgang</button>
+                <button class="btn-secondary" id="logoutBtn">Logg ut</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+<script src="config.js"></script>
+<script src="modal.js"></script>
+<script src="auth.js"></script>
+<script src="boss-data.js"></script>
+<script>
+    const MODULE_NAMES = [
+        'Kom i gang',
+        'Python grunnleggende',
+        'Kontrollflyt',
+        'Funksjoner',
+        'Lister og ordbøker',
+        'Filer og moduler',
+    ];
+
+    const MODULE_LESSONS = {
+        0: ['modul0_oppsett', 'modul0_terminal', 'modul0_foerste_program'],
+        1: ['modul1_variabler', 'modul1_print_input', 'modul1_strenger', 'modul1_tall', 'modul1_kommentarer'],
+        2: ['modul2_if', 'modul2_while', 'modul2_for', 'modul2_kombinert'],
+        3: ['modul3_funksjoner', 'modul3_parametere', 'modul3_return', 'modul3_innebygde'],
+        4: ['modul4_lister', 'modul4_liste_metoder', 'modul4_ordboker', 'modul4_loekker_data'],
+        5: ['modul5_les_filer', 'modul5_skriv_filer', 'modul5_feilhandtering', 'modul5_moduler'],
+    };
+
+    function isBossUnlocked(moduleId) {
+        const lessons = MODULE_LESSONS[moduleId];
+        return lessons && lessons.every(l => localStorage.getItem(l) === 'true');
+    }
+
+    function bossSprite(boss) {
+        return boss.image
+            ? `<img src="${boss.image}" style="height:44px;width:auto;display:block;">`
+            : boss.sprite;
+    }
+
+    function renderAchievements() {
+        const grid = document.getElementById('achievementsGrid');
+        const entries = Object.entries(BOSS_DATA).filter(([id]) => isBossUnlocked(parseInt(id)));
+
+        if (entries.length === 0) {
+            grid.innerHTML = `<p style="color:#aaa;font-size:0.9em;grid-column:1/-1;">
+                Fullfør alle leksjonene i en modul for å se bosser her.
+            </p>`;
+            return;
+        }
+
+        grid.innerHTML = entries.map(([id, boss]) => {
+            const defeated = localStorage.getItem(`boss_modul${id}_defeated`) === 'true';
+            return `
+                <div class="achievement-card ${defeated ? 'defeated' : 'pending'}">
+                    <div class="achievement-sprite">${bossSprite(boss)}</div>
+                    <div style="flex:1;">
+                        <div class="achievement-module">Modul ${id} · ${MODULE_NAMES[id] || ''}</div>
+                        <div class="achievement-name">${boss.name}</div>
+                        <div class="${defeated ? 'status-won' : 'status-pending'}">
+                            ${defeated ? '✅ Beseiret!' : '⏳ Ikke beseiret ennå'}
+                        </div>
+                        <a href="boss.html?module=${id}" class="refight-btn">
+                            ${defeated ? '⚔️ Utfordre igjen' : '⚔️ Kjempe nå!'}
+                        </a>
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const user = window.courseAuth?.currentUser;
+
+        if (!user) {
+            document.getElementById('guestNotice').style.display = 'block';
+            return;
+        }
+
+        document.getElementById('profileSection').style.display = 'block';
+        document.getElementById('profileName').textContent = user.name;
+        renderAchievements();
+
+        // Sound settings
+        (function initSound() {
+            const musicOn  = document.getElementById('musicEnabled');
+            const sfxOn    = document.getElementById('sfxEnabled');
+            const musicVol = document.getElementById('musicVol');
+            const sfxVol   = document.getElementById('sfxVol');
+            const musicLbl = document.getElementById('musicVolLabel');
+            const sfxLbl   = document.getElementById('sfxVolLabel');
+
+            function read(key, def) { const v = localStorage.getItem(key); return v === null ? def : v; }
+
+            musicOn.checked  = read('sound_music_enabled', 'true') !== 'false';
+            sfxOn.checked    = read('sound_sfx_enabled',   'true') !== 'false';
+            musicVol.value   = read('sound_music_vol', '100');
+            sfxVol.value     = read('sound_sfx_vol',   '100');
+            musicLbl.textContent = musicVol.value + '%';
+            sfxLbl.textContent   = sfxVol.value   + '%';
+
+            musicOn.addEventListener('change',  () => localStorage.setItem('sound_music_enabled', musicOn.checked));
+            sfxOn.addEventListener('change',    () => localStorage.setItem('sound_sfx_enabled',   sfxOn.checked));
+            musicVol.addEventListener('input',  () => { localStorage.setItem('sound_music_vol', musicVol.value); musicLbl.textContent = musicVol.value + '%'; });
+            sfxVol.addEventListener('input',    () => { localStorage.setItem('sound_sfx_vol',   sfxVol.value);   sfxLbl.textContent   = sfxVol.value   + '%'; });
+        })();
+
+        document.getElementById('resetBtn').addEventListener('click', async () => {
+            const ok = await showConfirmDanger(
+                'Er du sikker? Dette sletter ALL lokal fremgang — leksjoner og boss-kamper — permanent.',
+                '⚠️ Nullstill fremgang'
+            );
+            if (!ok) return;
+
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && (key.startsWith('modul') || key.startsWith('boss_'))) {
+                    keysToRemove.push(key);
+                }
+            }
+            keysToRemove.forEach(k => localStorage.removeItem(k));
+
+            // Also clear sessionStorage boss_seen flags so the toast fires again
+            const ssKeysToRemove = [];
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                if (key && key.startsWith('boss_seen_')) ssKeysToRemove.push(key);
+            }
+            ssKeysToRemove.forEach(k => sessionStorage.removeItem(k));
+
+            if (window.courseAuth) await window.courseAuth.saveProgress();
+
+            renderAchievements();
+            showToast('Fremgang nullstilt.', 'info');
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await window.courseAuth.logout();
+            if (!window.courseAuth.currentUser) {
+                window.location.href = 'index.html';
+            }
+        });
+    });
+</script>
+</body>
+</html>

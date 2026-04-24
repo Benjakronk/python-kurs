@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 1 – Tall og regning</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 1 – Tall og regning</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Bruke alle de grunnleggende regneoperatorene (+, -, *, /, //, %, **)</li>
+        <li>Forstå forskjellen mellom heltallsdivisjon og vanlig divisjon</li>
+        <li>Bruke <code>round()</code>, <code>abs()</code> og <code>int()</code>/<code>float()</code> for å jobbe med tall</li>
+    </ul>
+</div>
+
+<h2>Regneoperatorer</h2>
+<div class="python-terminal-container" data-start-code='a = 17
+b = 5
+print(a + b)    # addisjon:       22
+print(a - b)    # subtraksjon:    12
+print(a * b)    # multiplikasjon: 85
+print(a / b)    # divisjon:       3.4  (alltid float!)
+print(a // b)   # heltallsdiv.:   3    (kutter desimalene)
+print(a % b)    # modulo/rest:    2    (17 = 5*3 + 2)
+print(a ** 2)   # potens:         289  (17²)'></div>
+
+<h3>Heltallsdivisjon og modulo</h3>
+<p><code>//</code> gir deg den hele delen av en divisjon. <code>%</code> gir resten. Disse er veldig nyttige:</p>
+
+<div class="python-terminal-container" data-start-code='minutter = 137
+timer = minutter // 60
+rest_min = minutter % 60
+print(f"137 minutter er {timer} time(r) og {rest_min} minutt(er)")'></div>
+
+<div class="notification-box tip">
+    <code>%</code> (modulo) er perfekt for å sjekke om et tall er partall: <code>tall % 2 == 0</code> er sant for partall.
+</div>
+
+<h2>Nyttige innebygde funksjoner for tall</h2>
+
+<div class="python-terminal-container" data-start-code='print(round(3.7))       # 4   - runder av til nærmeste heltall
+print(round(3.14159, 2)) # 3.14 - to desimaler
+print(abs(-42))          # 42  - absolutt verdi (alltid positiv)
+print(max(3, 9, 1, 7))  # 9   - størst
+print(min(3, 9, 1, 7))  # 1   - minst'></div>
+
+<h3>Konvertere mellom typer</h3>
+<div class="python-terminal-container" data-start-code='pi_tekst = "3.14"
+pi_tall  = float(pi_tekst)    # tekst → desimaltall
+print(pi_tall + 1)             # 4.140...
+
+desimal = 9.8
+print(int(desimal))            # 9 — kutter desimalene (runder IKKE av)
+
+tall = 42
+print(str(tall) + " er svaret") # int → tekst for å koble strenger'></div>
+
+<h2>Kombinerte operasjoner og rekkefølge</h2>
+<p>Python følger standard matematisk prioritet (PEMDAS): potens → multiplikasjon/divisjon → addisjon/subtraksjon. Bruk parenteser om du er usikker:</p>
+
+<div class="python-terminal-container" data-start-code='print(2 + 3 * 4)      # 14 (ikke 20!)
+print((2 + 3) * 4)    # 20
+
+# Korte tilordningsoperatorer:
+x = 10
+x += 5   # samme som x = x + 5
+x -= 3   # samme som x = x - 3
+x *= 2   # samme som x = x * 2
+print(x)'></div>
+
+<div class="project-box">
+    <h2>📐 Oppgave: BMI-kalkulator</h2>
+    <p>Lag <code>bmi.py</code>. Programmet skal be om høyde (i meter) og vekt (i kg), og printe BMI avrundet til 1 desimal.</p>
+    <p>Formel: <strong>BMI = vekt / (høyde²)</strong></p>
+    <div class="expected-output">Høyde (m): 1.75
+Vekt (kg): 70
+Din BMI er: 22.9</div>
+</div>
+
+<div class="python-terminal-container" data-start-code='hoyde = float(input("Høyde (m): "))
+vekt  = float(input("Vekt (kg): "))
+# Beregn og print BMI her'></div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kjenner alle syv operatorene: + - * / // % **</label></li>
+        <li><label><input type="checkbox"> Jeg vet hva modulo (%) gjør og kan bruke det</label></li>
+        <li><label><input type="checkbox"> Jeg kan bruke round(), abs(), max(), min()</label></li>
+        <li><label><input type="checkbox"> Jeg har laget BMI-kalkulatoren i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul1-kommentarer.html">Kommentarer og kodestil →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul1_tall');</script>
+</body></html>

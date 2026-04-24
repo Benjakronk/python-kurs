@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 0 – Ditt første Python-program</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button">
+    <span>🏠</span>
+    <span class="home-button-text">Tilbake til kurs</span>
+</a>
+<div id="userBadge" class="user-badge">👤</div>
+
+<div class="container">
+<div class="course-container">
+
+<h1>Modul 0 – Ditt første Python-program</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <p>Etter denne leksjonen skal du:</p>
+    <ul>
+        <li>Vite hva <code>print()</code> gjør og hvordan du bruker den</li>
+        <li>Forstå strukturen til en enkel Python-fil</li>
+        <li>Ha laget og kjørt ditt eget Python-program i VSCode</li>
+        <li>Prøvd Python direkte i nettleseren med den innebygde terminalen</li>
+    </ul>
+</div>
+
+<h2>Hva er et program?</h2>
+
+<p>Et Python-program er rett og slett en tekstfil som slutter på <code>.py</code>.
+Filen inneholder instruksjoner — én per linje. Python leser dem fra topp til bunn og utfører dem i rekkefølge.</p>
+
+<p>La oss starte med den enkleste instruksjonen: <code>print()</code>.</p>
+
+<h2><code>print()</code> — skriv tekst til skjermen</h2>
+
+<p><code>print()</code> er en <strong>funksjon</strong> — noe Python vet fra før at den kan gjøre.
+Du gir den en verdi inni parentesene, og den viser verdien i terminalen.</p>
+
+<div class="code-example">print("Hei verden!")</div>
+<div class="expected-output">Hei verden!</div>
+
+<p>Du kan printe så mange linjer du vil:</p>
+
+<div class="code-example">print("Linje 1")
+print("Linje 2")
+print("Linje 3")</div>
+<div class="expected-output">Linje 1
+Linje 2
+Linje 3</div>
+
+<p>Tekst må alltid stå inni anførselstegn — enten enkle <code>'</code> eller doble <code>"</code>:</p>
+
+<div class="code-example">print('Enkle anførselstegn fungerer også!')</div>
+
+<div class="notification-box tip">
+    Python bryr seg ikke om du bruker enkle eller doble anførselstegn — velg én stil
+    og hold deg til den. I dette kurset bruker vi doble.
+</div>
+
+<h2>Prøv det selv — innebygd terminal</h2>
+
+<p>Endre koden nedenfor og klikk <strong>▶ Kjør kode</strong> for å se resultatet umiddelbart.
+Du trenger ikke åpne VSCode for dette — terminalen her er direkte i nettleseren.</p>
+
+<!-- Python terminal -->
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+
+<div class="python-terminal-container" data-start-code='print("Hei verden!")
+print("Mitt navn er ...")
+print("Jeg er klar for å lære Python! 🐍")'></div>
+
+<div class="notification-box tip">
+    Prøv å endre teksten inni anførselstegnene og kjør koden på nytt.
+    Hva skjer om du glemmer anførselstegnene rundt teksten?
+</div>
+
+<h2>Lag programmet i VSCode</h2>
+
+<p>Nettleseterminalen er fin for å prøve, men ekte Python-programmer lager du i VSCode.
+Slik gjør du det:</p>
+
+<ol class="step-list">
+    <li>
+        Åpne VSCode og mappen din (<code>python-kurs</code>).
+    </li>
+    <li>
+        Klikk <strong>Ny fil</strong> i filpanelet og kall den <code>hei.py</code>.
+    </li>
+    <li>
+        Skriv dette:
+        <div class="code-example">print("Hei!")
+print("Jeg heter ...")
+print("I dag lærer jeg Python.")</div>
+    </li>
+    <li>
+        Åpne terminalen (<kbd>Ctrl</kbd> + <kbd>`</kbd>) og kjør:
+        <div class="terminal-command">python hei.py</div>
+    </li>
+    <li>
+        Du skal se de tre linjene i terminalen. 🎉
+    </li>
+</ol>
+
+<h2>Hva skjer om det går galt?</h2>
+
+<p>Python er nøyaktig. Det vanligste nybegynnerfeil er:</p>
+
+<div class="code-example">print(Hei verden)  # FEIL — tekst uten anførselstegn</div>
+<div style="background:#2d1b1b; color:#f44747; padding:12px; border-radius:8px; font-family:monospace; margin-bottom:16px; font-size:0.9em;">
+SyntaxError: invalid syntax
+</div>
+
+<div class="code-example">Print("Hei")  # FEIL — stor forbokstav</div>
+<div style="background:#2d1b1b; color:#f44747; padding:12px; border-radius:8px; font-family:monospace; margin-bottom:16px; font-size:0.9em;">
+NameError: name 'Print' is not defined
+</div>
+
+<div class="notification-box important-note">
+    Python skiller mellom store og små bokstaver. <code>print</code> og <code>Print</code>
+    er to helt forskjellige ting. Bruk alltid små bokstaver.
+</div>
+
+<h2>Flerlinjeprint</h2>
+
+<p>Om du vil ha en tom linje mellom output, printer du en tom streng:</p>
+
+<div class="python-terminal-container" data-start-code='print("Første avsnitt")
+print("")
+print("Andre avsnitt — etter en tom linje")'></div>
+
+<!-- ============================================================ -->
+<!-- Checklist                                                      -->
+<!-- ============================================================ -->
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg har prøvd <code>print()</code> i terminalen i nettleseren</label></li>
+        <li><label><input type="checkbox"> Jeg har opprettet filen <code>hei.py</code> i VSCode</label></li>
+        <li><label><input type="checkbox"> Jeg har kjørt programmet i terminalen og sett output</label></li>
+        <li><label><input type="checkbox"> Jeg har prøvd å lage en feil med vilje og lest feilmeldingen</label></li>
+    </ul>
+</div>
+
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">
+        ✓ Du har allerede fullført denne leksjonen og fått 1 poeng!
+    </p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">
+        🎉 Fantastisk — du har skrevet ditt første Python-program!
+        Kom i gang med Modul 1 når du er klar:
+        <a href="modul1-variabler.html">Variabler og datatyper →</a>
+    </div>
+</div>
+
+</div>
+</div>
+
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script src="lesson.js"></script>
+<script src="python-terminal.js"></script>
+<script>
+    initLesson('modul0_foerste_program');
+</script>
+</body>
+</html>

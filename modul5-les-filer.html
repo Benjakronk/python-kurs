@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 5 – Lese filer</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+
+<div class="container"><div class="course-container">
+
+<h1>Modul 5 – Lese filer</h1>
+
+<div class="notification-box windows-note">
+    Denne leksjonen bruker filer — noe nettleseren ikke støtter. All kode skrives og kjøres i <strong>VSCode</strong>.
+</div>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Åpne og lese tekstfiler med <code>open()</code></li>
+        <li>Bruke <code>with</code>-blokken for sikker filhåndtering</li>
+        <li>Lese hele filen, én linje, eller alle linjer som en liste</li>
+        <li>Håndtere at en fil ikke finnes</li>
+    </ul>
+</div>
+
+<h2>Lag en testfil først</h2>
+<p>Opprett filen <code>hilsener.txt</code> i prosjektmappen din med dette innholdet (Fil → Ny fil i VSCode):</p>
+<div class="code-example">Hei, Ola!
+Hei, Kari!
+Hei, Per!</div>
+
+<h2>Lese hele filen på én gang</h2>
+<div class="code-example">with open("hilsener.txt", "r", encoding="utf-8") as fil:
+    innhold = fil.read()
+    print(innhold)</div>
+<div class="expected-output">Hei, Ola!
+Hei, Kari!
+Hei, Per!</div>
+
+<p>Forklaring:</p>
+<ul>
+    <li><code>"r"</code> — read mode (lesemodus)</li>
+    <li><code>encoding="utf-8"</code> — støtter æ, ø, å</li>
+    <li><code>with</code> — lukker filen automatisk når blokken er ferdig</li>
+</ul>
+
+<h2>Lese linje for linje</h2>
+<div class="code-example">with open("hilsener.txt", "r", encoding="utf-8") as fil:
+    for linje in fil:
+        linje = linje.strip()   # fjern \n på slutten
+        print(f"→ {linje}")</div>
+<div class="expected-output">→ Hei, Ola!
+→ Hei, Kari!
+→ Hei, Per!</div>
+
+<h2>Lese alle linjer som en liste</h2>
+<div class="code-example">with open("hilsener.txt", "r", encoding="utf-8") as fil:
+    linjer = fil.readlines()    # liste av strenger
+
+print(f"Antall linjer: {len(linjer)}")
+print(f"Første linje: {linjer[0].strip()}")</div>
+
+<h2>Hva skjer om filen ikke finnes?</h2>
+<div class="code-example">try:
+    with open("finnes_ikke.txt", "r", encoding="utf-8") as fil:
+        print(fil.read())
+except FileNotFoundError:
+    print("Finner ikke filen!")</div>
+
+<div class="notification-box tip">
+    Bruk alltid <code>with open(...) as fil:</code> fremfor <code>fil = open(...)</code>.
+    <code>with</code> garanterer at filen lukkes selv om det oppstår en feil.
+</div>
+
+<div class="project-box">
+    <h2>📄 Oppgave: Ordteller</h2>
+    <p>Lag <code>ordteller.py</code>. Opprett først en tekstfil <code>tekst.txt</code> med noen setninger. Programmet skal:</p>
+    <ul>
+        <li>Lese filen</li>
+        <li>Telle antall linjer, ord og tegn</li>
+        <li>Printe statistikken</li>
+    </ul>
+    <div class="expected-output">Linjer: 3
+Ord: 24
+Tegn: 142</div>
+    <p>Tips: <code>tekst.split()</code> deler på alle mellomrom og gir en liste med ord.</p>
+</div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg har laget <code>hilsener.txt</code> og lest den med <code>with open()</code></label></li>
+        <li><label><input type="checkbox"> Jeg kan lese linje for linje og bruke .strip() på linjene</label></li>
+        <li><label><input type="checkbox"> Jeg bruker try/except for å håndtere FileNotFoundError</label></li>
+        <li><label><input type="checkbox"> Jeg har laget ordtelleren i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul5-skriv-filer.html">Skrive til filer →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script>
+<script>initLesson('modul5_les_filer');</script>
+</body></html>

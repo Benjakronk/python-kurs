@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – Python-kurs</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #1c3a6e; min-height: 100vh; padding: 20px; }
+        .wrap { max-width: 900px; margin: 0 auto; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        h1 { color: white; text-align: center; margin-bottom: 24px; }
+        h2 { color: #1c3a6e; margin-top: 0; border-bottom: 2px solid #ffc107; padding-bottom: 8px; }
+        h3 { color: #2a6496; margin-bottom: 12px; }
+        .stat-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+        .stat { background: linear-gradient(135deg, #2a6496, #1c3a6e); color: white; padding: 16px 24px; border-radius: 10px; text-align: center; flex: 1; min-width: 120px; }
+        .stat-num { font-size: 2em; font-weight: bold; }
+        .stat-lbl { font-size: 0.85em; opacity: 0.85; }
+        .module-section { background: #f0f4f8; border-radius: 8px; padding: 16px; margin-bottom: 16px; border-left: 4px solid #2a6496; }
+        .lesson-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: white; border-radius: 6px; margin: 6px 0; border: 1px solid #dee2e6; }
+        .lesson-name { font-weight: 500; }
+        .toggle-btn { border: none; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .toggle-btn.done { background: #28a745; color: white; }
+        .toggle-btn.not-done { background: #dc3545; color: white; }
+        .bulk-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+        .bulk-btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9em; }
+        .bulk-btn.primary { background: #2a6496; color: white; }
+        .bulk-btn.success { background: #28a745; color: white; }
+        .bulk-btn.danger  { background: #dc3545; color: white; }
+        .setup-box { background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 16px; }
+        .setup-box h3 { color: #856404; margin-top: 0; }
+        pre { background: #1e1e1e; color: #d4d4d4; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 0.85em; }
+        a.home { display: inline-block; color: white; margin-bottom: 16px; text-decoration: none; font-weight: bold; }
+        a.home:hover { text-decoration: underline; }
+        label { cursor: pointer; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <a class="home" href="index.html">← Tilbake til kursoversikten</a>
+    <h1>🔧 Admin – Python-kurs</h1>
+
+    <!-- Stats -->
+    <div class="card">
+        <h2>📊 Oversikt</h2>
+        <div class="stat-row">
+            <div class="stat"><div class="stat-num" id="statCompleted">0</div><div class="stat-lbl">Fullførte leksjoner</div></div>
+            <div class="stat"><div class="stat-num" id="statTotal">0</div><div class="stat-lbl">Totale leksjoner</div></div>
+            <div class="stat"><div class="stat-num" id="statPct">0%</div><div class="stat-lbl">Fremgang</div></div>
+            <div class="stat"><div class="stat-num" id="statUser">–</div><div class="stat-lbl">Innlogget bruker</div></div>
+        </div>
+    </div>
+
+    <!-- Bulk actions -->
+    <div class="card">
+        <h2>⚡ Hurtighandlinger</h2>
+        <div class="bulk-row">
+            <button class="bulk-btn success" onclick="setAll(true)">✅ Fullfør alle</button>
+            <button class="bulk-btn danger"  onclick="setAll(false)">❌ Nullstill alle</button>
+            <button class="bulk-btn danger"  onclick="resetAll()">🗑️ Slett all data</button>
+        </div>
+    </div>
+
+    <!-- Per-lesson control -->
+    <div class="card">
+        <h2>📚 Leksjonskontroll</h2>
+        <div id="lessonGrid"></div>
+    </div>
+
+    <!-- Cloud sync setup guide -->
+    <div class="card">
+        <h2>☁️ Google Sheets oppsett</h2>
+        <div class="setup-box">
+            <h3>⚙️ Steg for å aktivere sky-synkronisering</h3>
+            <ol>
+                <li>Opprett et nytt Google Regneark. Gi arket (ikke dokumentet) navnet <strong>Fremgang</strong>.</li>
+                <li>Legg til kolonneoverskrifter i rad 1: <code>Navn | Passord | Fremgang | Sist oppdatert</code></li>
+                <li>Gå til <strong>Utvidelser → Apps Script</strong>.</li>
+                <li>Lim inn innholdet fra filen <code>apps-script.gs</code> i dette prosjektet.</li>
+                <li>Klikk <strong>Distribuer → Ny distribusjon → Nettapp</strong>.<br>
+                    Velg «Kjør som: Meg» og «Hvem har tilgang: Alle».</li>
+                <li>Kopier URL-en du får etter distribusjon.</li>
+                <li>Åpne <code>config.js</code> og lim inn URL-en i <code>appsScriptUrl</code>.</li>
+                <li>Sett <code>enableCloudSync: true</code> i samme fil.</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<script src="config.js"></script>
+<script src="modal.js"></script>
+<script>
+const MODULES = [
+    { id: 0, name: "Modul 0: Kom i gang", lessons: [
+        { id: "modul0_oppsett",        name: "Python og VSCode" },
+        { id: "modul0_terminal",       name: "Terminalen på Windows" },
+        { id: "modul0_foerste_program",name: "Første Python-program" },
+    ]},
+    { id: 1, name: "Modul 1: Python grunnleggende", lessons: [
+        { id: "modul1_variabler",   name: "Variabler og datatyper" },
+        { id: "modul1_print_input", name: "Print og input" },
+        { id: "modul1_strenger",    name: "Tekststrenger" },
+        { id: "modul1_tall",        name: "Tall og regning" },
+        { id: "modul1_kommentarer", name: "Kommentarer og kodestil" },
+    ]},
+    { id: 2, name: "Modul 2: Kontrollflyt", lessons: [
+        { id: "modul2_if",        name: "If, elif og else" },
+        { id: "modul2_while",     name: "While-løkker" },
+        { id: "modul2_for",       name: "For-løkker" },
+        { id: "modul2_kombinert", name: "Løkker og betingelser" },
+    ]},
+    { id: 3, name: "Modul 3: Funksjoner", lessons: [
+        { id: "modul3_funksjoner", name: "Hva er en funksjon?" },
+        { id: "modul3_parametere", name: "Parametere og argumenter" },
+        { id: "modul3_return",     name: "Returverdier" },
+        { id: "modul3_innebygde",  name: "Innebygde funksjoner" },
+    ]},
+    { id: 4, name: "Modul 4: Lister og ordbøker", lessons: [
+        { id: "modul4_lister",        name: "Lister" },
+        { id: "modul4_liste_metoder", name: "Listemetoder" },
+        { id: "modul4_ordboker",      name: "Ordbøker" },
+        { id: "modul4_loekker_data",  name: "Løkker med datastrukturer" },
+    ]},
+    { id: 5, name: "Modul 5: Filer og moduler", lessons: [
+        { id: "modul5_les_filer",      name: "Lese filer" },
+        { id: "modul5_skriv_filer",    name: "Skrive til filer" },
+        { id: "modul5_feilhandtering", name: "Feilhåndtering" },
+        { id: "modul5_moduler",        name: "Nyttige moduler" },
+    ]},
+];
+
+const allLessonIds = MODULES.flatMap(m => m.lessons.map(l => l.id));
+
+function toggle(id, btn) {
+    const cur = localStorage.getItem(id) === 'true';
+    localStorage.setItem(id, (!cur).toString());
+    updateBtn(btn, !cur);
+    updateStats();
+}
+
+function updateBtn(btn, done) {
+    btn.textContent  = done ? 'Fullført' : 'Ikke fullført';
+    btn.className    = 'toggle-btn ' + (done ? 'done' : 'not-done');
+}
+
+async function setAll(done) {
+    if (!done) {
+        const ok = await showConfirm('Nullstille alle leksjoner? Fremgangen slettes lokalt.', 'Nullstill alle');
+        if (!ok) return;
+    }
+    allLessonIds.forEach(id => localStorage.setItem(id, done.toString()));
+    document.querySelectorAll('.toggle-btn').forEach(btn => updateBtn(btn, done));
+    updateStats();
+    showToast(done ? 'Alle leksjoner markert fullført' : 'Alle leksjoner nullstilt', done ? 'success' : 'warning');
+}
+
+async function resetAll() {
+    const ok = await showConfirmDanger('Slett ALL fremgangsdata permanent?', 'Advarsel');
+    if (!ok) return;
+    allLessonIds.forEach(id => localStorage.removeItem(id));
+    localStorage.removeItem('py_course_user');
+    localStorage.removeItem('py_course_progress_backup');
+    document.querySelectorAll('.toggle-btn').forEach(btn => updateBtn(btn, false));
+    updateStats();
+    document.getElementById('statUser').textContent = '–';
+    showToast('All data slettet', 'danger');
+}
+
+function updateStats() {
+    const total     = allLessonIds.length;
+    const completed = allLessonIds.filter(id => localStorage.getItem(id) === 'true').length;
+    document.getElementById('statCompleted').textContent = completed;
+    document.getElementById('statTotal').textContent     = total;
+    document.getElementById('statPct').textContent       = Math.round(completed / total * 100) + '%';
+    const user = localStorage.getItem('py_course_user');
+    if (user) {
+        try { document.getElementById('statUser').textContent = JSON.parse(user).name; } catch {}
+    }
+}
+
+function renderGrid() {
+    const grid = document.getElementById('lessonGrid');
+    grid.innerHTML = MODULES.map(mod => {
+        const rows = mod.lessons.map(l => {
+            const done = localStorage.getItem(l.id) === 'true';
+            return `<div class="lesson-row">
+                <span class="lesson-name">${l.name}</span>
+                <button class="toggle-btn ${done ? 'done' : 'not-done'}"
+                    onclick="toggle('${l.id}', this)">
+                    ${done ? 'Fullført' : 'Ikke fullført'}
+                </button>
+            </div>`;
+        }).join('');
+        return `<div class="module-section"><h3>${mod.name}</h3>${rows}</div>`;
+    }).join('');
+    updateStats();
+}
+
+renderGrid();
+</script>
+</body>
+</html>

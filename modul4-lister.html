@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 4 – Lister</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 4 – Lister</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Opprette og bruke lister</li>
+        <li>Hente elementer med indeks (positiv og negativ)</li>
+        <li>Hente deler av en liste med slicing</li>
+        <li>Sjekke om noe er i en liste med <code>in</code></li>
+    </ul>
+</div>
+
+<h2>Hva er en liste?</h2>
+<p>En liste lar deg samle <strong>mange verdier i én variabel</strong>. I stedet for å lage <code>elev1</code>, <code>elev2</code>, <code>elev3</code>… lagrer du dem alle i én liste.</p>
+
+<div class="python-terminal-container" data-start-code='frukter = ["eple", "banan", "appelsin", "mango"]
+tall    = [1, 2, 3, 4, 5]
+blandet = ["Ola", 17, True, 3.14]   # kan blandes
+
+print(frukter)
+print(tall)
+print(len(frukter))  # 4 elementer'></div>
+
+<h2>Hente elementer — indeksering</h2>
+<p>Hvert element har en indeks som starter på 0. Negative indekser teller bakfra:</p>
+
+<div class="python-terminal-container" data-start-code='frukter = ["eple", "banan", "appelsin", "mango"]
+#             0        1         2          3
+#            -4       -3        -2         -1
+
+print(frukter[0])   # eple     — første
+print(frukter[2])   # appelsin — tredje
+print(frukter[-1])  # mango    — siste
+print(frukter[-2])  # appelsin — nest siste'></div>
+
+<h2>Slicing — hente deler</h2>
+<div class="python-terminal-container" data-start-code='tall = [10, 20, 30, 40, 50]
+
+print(tall[1:4])   # [20, 30, 40] — fra idx 1, opp til (ikke med) idx 4
+print(tall[:3])    # [10, 20, 30] — fra starten til idx 3
+print(tall[2:])    # [30, 40, 50] — fra idx 2 til slutten
+print(tall[::2])   # [10, 30, 50] — hvert andre element (step=2)
+print(tall[::-1])  # [50, 40, 30, 20, 10] — reversert'></div>
+
+<h2>Sjekke innhold</h2>
+<div class="python-terminal-container" data-start-code='frukter = ["eple", "banan", "appelsin"]
+
+print("banan" in frukter)     # True
+print("mango" in frukter)     # False
+print("mango" not in frukter) # True'></div>
+
+<h2>Lister kan endres</h2>
+<div class="python-terminal-container" data-start-code='karakterer = [4, 5, 3, 6, 4]
+karakterer[2] = 5   # endre verdi på indeks 2
+print(karakterer)'></div>
+
+<h2>Iterere over en liste</h2>
+<div class="python-terminal-container" data-start-code='shoppingliste = ["melk", "brød", "ost", "eple"]
+
+for vare in shoppingliste:
+    print(f"- Husk å kjøpe {vare}")'></div>
+
+<div class="project-box">
+    <h2>🏫 Oppgave: Klassens karakterer</h2>
+    <p>Lag <code>karakterer.py</code>. Start med listen <code>karakterer = [3, 5, 4, 6, 2, 5, 4, 3, 6, 5]</code>. Programmet skal printe: antall elever, gjennomsnitt, høyeste og laveste karakter, og om 6 er i listen.</p>
+</div>
+
+<div class="python-terminal-container" data-start-code='karakterer = [3, 5, 4, 6, 2, 5, 4, 3, 6, 5]
+print(f"Antall: {len(karakterer)}")
+print(f"Gjennomsnitt: {sum(karakterer)/len(karakterer):.1f}")
+print(f"Høyest: {max(karakterer)}")
+print(f"Lavest: {min(karakterer)}")
+print(f"Noen fikk 6: {6 in karakterer}")'></div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan opprette lister og hente elementer med indeks</label></li>
+        <li><label><input type="checkbox"> Jeg kan bruke negative indekser og slicing</label></li>
+        <li><label><input type="checkbox"> Jeg kan iterere over en liste med for</label></li>
+        <li><label><input type="checkbox"> Jeg har laget karakterprogrammet i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul4-liste-metoder.html">Listemetoder →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul4_lister');</script>
+</body></html>

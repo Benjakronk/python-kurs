@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 2 – If, elif og else</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 2 – If, elif og else</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Skrive if-setninger som tar beslutninger basert på betingelser</li>
+        <li>Bruke elif og else for flere valgmuligheter</li>
+        <li>Bruke sammenligningsoperatorer (==, !=, &lt;, &gt;, &lt;=, &gt;=)</li>
+        <li>Kombinere betingelser med and, or og not</li>
+    </ul>
+</div>
+
+<h2>If — ta en beslutning</h2>
+<p>En if-setning kjører kodeblokken inni <strong>bare om betingelsen er sann</strong>. Legg merke til kolon og innrykk:</p>
+
+<div class="python-terminal-container" data-start-code='temperatur = 28
+
+if temperatur > 25:
+    print("Det er varmt ute!")
+    print("Husk solkrem.")
+
+print("Denne linjen kjøres alltid.")'></div>
+
+<h3>Sammenligningsoperatorer</h3>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;">
+    <thead><tr style="background:#2a6496;color:white;"><th style="padding:8px">Operator</th><th style="padding:8px">Betyr</th><th style="padding:8px">Eksempel</th></tr></thead>
+    <tbody>
+        <tr style="background:#f0f4f8;"><td style="padding:8px"><code>==</code></td><td style="padding:8px">er lik</td><td style="padding:8px"><code>x == 5</code></td></tr>
+        <tr><td style="padding:8px"><code>!=</code></td><td style="padding:8px">er ikke lik</td><td style="padding:8px"><code>x != 0</code></td></tr>
+        <tr style="background:#f0f4f8;"><td style="padding:8px"><code>&lt;</code></td><td style="padding:8px">mindre enn</td><td style="padding:8px"><code>x &lt; 10</code></td></tr>
+        <tr><td style="padding:8px"><code>&gt;</code></td><td style="padding:8px">større enn</td><td style="padding:8px"><code>x &gt; 0</code></td></tr>
+        <tr style="background:#f0f4f8;"><td style="padding:8px"><code>&lt;=</code></td><td style="padding:8px">mindre/lik</td><td style="padding:8px"><code>x &lt;= 18</code></td></tr>
+        <tr><td style="padding:8px"><code>&gt;=</code></td><td style="padding:8px">større/lik</td><td style="padding:8px"><code>x &gt;= 0</code></td></tr>
+    </tbody>
+</table>
+
+<div class="notification-box important-note">
+    <code>==</code> sjekker om to ting er like. <code>=</code> lagrer en verdi. De er veldig forskjellige!
+</div>
+
+<h2>Else — alternativet</h2>
+<div class="python-terminal-container" data-start-code='alder = 16
+
+if alder >= 18:
+    print("Du er myndig!")
+else:
+    print("Du er ikke myndig ennå.")
+    print(f"Du mangler {18 - alder} år.")'></div>
+
+<h2>Elif — flere valg</h2>
+<div class="python-terminal-container" data-start-code='karakter = 4
+
+if karakter == 6:
+    print("Eksellent!")
+elif karakter == 5:
+    print("Meget bra!")
+elif karakter == 4:
+    print("Bra!")
+elif karakter >= 2:
+    print("Bestått.")
+else:
+    print("Stryk.")'></div>
+
+<h2>And, or og not</h2>
+<div class="python-terminal-container" data-start-code='alder = 20
+har_lisens = True
+
+# and: begge må være sanne
+if alder >= 18 and har_lisens:
+    print("Du kan kjøre bil!")
+
+# or: minst én må være sann
+if alder < 18 or not har_lisens:
+    print("Du kan ikke kjøre bil.")
+
+# not: snur sann/usann
+er_helg = False
+if not er_helg:
+    print("Det er en ukedag.")'></div>
+
+<div class="project-box">
+    <h2>🚦 Oppgave: Inngangssjekk</h2>
+    <p>Lag <code>inngang.py</code>. Programmet skal spørre om alder og om brukeren har studentkort. Regler:</p>
+    <ul>
+        <li>Under 12: gratis</li>
+        <li>12–17: 50 kr</li>
+        <li>18+: 120 kr, men 80 kr med studentkort</li>
+    </ul>
+</div>
+
+<div class="python-terminal-container" data-start-code='alder = int(input("Alder: "))
+studentkort = input("Har du studentkort? (ja/nei): ").lower() == "ja"
+# Legg til if/elif/else her'></div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan skrive if/elif/else med riktig innrykk</label></li>
+        <li><label><input type="checkbox"> Jeg kan bruke alle seks sammenligningsoperatorene</label></li>
+        <li><label><input type="checkbox"> Jeg kan kombinere betingelser med and og or</label></li>
+        <li><label><input type="checkbox"> Jeg har laget inngangssjekk-programmet i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Bra! Neste: <a href="modul2-while.html">While-løkker →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul2_if');</script>
+</body></html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 3 – Returverdier</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 3 – Returverdier</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Bruke <code>return</code> for å sende et resultat ut av en funksjon</li>
+        <li>Forstå forskjellen mellom print og return</li>
+        <li>Returnere flere verdier på én gang</li>
+        <li>Bruke returverdier i videre beregninger</li>
+    </ul>
+</div>
+
+<h2>Return — send et svar tilbake</h2>
+<p>Så langt har funksjonene våre bare printet. Men ofte vil vi at funksjonen skal <em>beregne noe og sende svaret tilbake</em>, slik at vi kan bruke det videre i koden.</p>
+
+<div class="python-terminal-container" data-start-code='def kvadrat(n):
+    return n * n  # send resultatet tilbake
+
+svar = kvadrat(9)       # 81 lagres i "svar"
+print(svar)
+
+print(kvadrat(5))       # kan også brukes direkte
+print(kvadrat(3) + 1)   # og i uttrykk'></div>
+
+<h2>Print vs. return</h2>
+<div class="python-terminal-container" data-start-code='def dobbel_print(x):
+    print(x * 2)    # printer, men gir ingenting tilbake
+
+def dobbel_return(x):
+    return x * 2   # gir resultatet tilbake
+
+# Med print — kan ikke bruke resultatet videre:
+resultat = dobbel_print(5)  # printer 10
+print(resultat)              # None!  ← ingenting ble returnert
+
+# Med return — kan bruke resultatet:
+resultat = dobbel_return(5) # ingenting printes
+print(resultat)              # 10'></div>
+
+<h2>Early return</h2>
+<p><code>return</code> avslutter funksjonen umiddelbart. Du kan bruke det for å håndtere spesialtilfeller tidlig:</p>
+
+<div class="python-terminal-container" data-start-code='def del_paa(a, b):
+    if b == 0:
+        return "Kan ikke dele på null!"
+    return a / b
+
+print(del_paa(10, 2))   # 5.0
+print(del_paa(7, 0))    # Kan ikke dele på null!'></div>
+
+<h2>Returnere flere verdier</h2>
+<div class="python-terminal-container" data-start-code='def min_maks(tall_liste):
+    return min(tall_liste), max(tall_liste)
+
+minst, storst = min_maks([4, 9, 1, 7, 3])
+print(f"Minst: {minst}, Størst: {storst}")'></div>
+
+<div class="project-box">
+    <h2>🌡️ Oppgave: Temperaturomregner</h2>
+    <p>Lag <code>temperatur.py</code> med tre funksjoner:</p>
+    <ul>
+        <li><code>celsius_til_fahrenheit(c)</code> → <code>c * 9/5 + 32</code></li>
+        <li><code>fahrenheit_til_celsius(f)</code> → <code>(f - 32) * 5/9</code></li>
+        <li><code>celsius_til_kelvin(c)</code> → <code>c + 273.15</code></li>
+    </ul>
+    <p>Alle skal <code>return</code> resultatet avrundet til 1 desimal. Bruk dem i et program som ber om en temperatur i Celsius og konverterer til begge andre enheter.</p>
+</div>
+
+<div class="python-terminal-container" data-start-code='def celsius_til_fahrenheit(c):
+    return round(c * 9/5 + 32, 1)
+
+def fahrenheit_til_celsius(f):
+    return round((f - 32) * 5/9, 1)
+
+def celsius_til_kelvin(c):
+    return round(c + 273.15, 1)
+
+c = float(input("Temperatur i Celsius: "))
+print(f"{c}°C = {celsius_til_fahrenheit(c)}°F")
+print(f"{c}°C = {celsius_til_kelvin(c)} K")'></div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg forstår forskjellen mellom print og return i en funksjon</label></li>
+        <li><label><input type="checkbox"> Jeg kan lagre returverdien i en variabel og bruke den</label></li>
+        <li><label><input type="checkbox"> Jeg kan returnere flere verdier</label></li>
+        <li><label><input type="checkbox"> Jeg har laget temperaturomregneren i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul3-innebygde.html">Innebygde funksjoner →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul3_return');</script>
+</body></html>

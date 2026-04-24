@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 0 – Terminalen på Windows</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button">
+    <span>🏠</span>
+    <span class="home-button-text">Tilbake til kurs</span>
+</a>
+<div id="userBadge" class="user-badge">👤</div>
+
+<div class="container">
+<div class="course-container">
+
+<h1>Modul 0 – Terminalen på Windows</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <p>Etter denne leksjonen skal du kunne:</p>
+    <ul>
+        <li>Åpne terminalen (ledeteksten) på Windows</li>
+        <li>Navigere mellom mapper med <code>cd</code></li>
+        <li>Liste opp filer med <code>dir</code></li>
+        <li>Opprette en mappe og navigere inn i den</li>
+        <li>Kjøre et Python-program fra terminalen</li>
+    </ul>
+</div>
+
+<h2>Hva er terminalen?</h2>
+
+<p>Terminalen (også kalt ledetekst eller kommandolinje) er et tekstbasert grensesnitt
+til datamaskinen. I stedet for å klikke med musen, skriver du kommandoer.
+Det høres vanskelig ut — men det er faktisk mer presist og effektivt enn å klikke rundt.</p>
+
+<p>Som Python-programmerer kommer du til å bruke terminalen <em>hele tiden</em>:
+for å kjøre programmer, installere pakker og navigere mellom filer.</p>
+
+<h2>Del 1 – Åpne terminalen</h2>
+
+<p>Det finnes flere måter:</p>
+
+<ol class="step-list">
+    <li>
+        <strong>Raskeste metode:</strong> Trykk <kbd>Win</kbd> + <kbd>R</kbd>,
+        skriv <code>cmd</code> og trykk <kbd>Enter</kbd>.
+    </li>
+    <li>
+        <strong>Via Start-menyen:</strong> Søk etter «ledetekst» eller «cmd».
+        Høyreklikk og velg «Kjør som administrator» om du trenger ekstra rettigheter.
+    </li>
+    <li>
+        <strong>Inne i VSCode (anbefalt):</strong> Åpne prosjektmappen i VSCode,
+        trykk <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick — tasten til venstre for 1).
+        Dette åpner en terminal som <em>allerede er i riktig mappe</em>.
+    </li>
+</ol>
+
+<div class="notification-box tip">
+    VSCode-terminalen er den beste å bruke når du jobber med Python.
+    Den åpner seg alltid i prosjektmappen din, så du slipper å navigere dit manuelt.
+</div>
+
+<h2>Del 2 – De viktigste kommandoene</h2>
+
+<h3>Se hvor du er</h3>
+<div class="terminal-command">cd</div>
+<div class="expected-output">C:\Users\BrukernAVN\python-prosjekter</div>
+<p>Kommandoen <code>cd</code> uten argumenter viser hvilken mappe du er i akkurat nå.</p>
+
+<h3>Liste opp filer og mapper</h3>
+<div class="terminal-command">dir</div>
+<div class="expected-output"> Directory of C:\Users\BrukernAVN\python-prosjekter
+
+03.01.2025  10:42    &lt;DIR&gt;          .
+03.01.2025  10:42    &lt;DIR&gt;          ..
+03.01.2025  10:45               42 test.py</div>
+<p>Du ser alle filer i mappen. <code>&lt;DIR&gt;</code> betyr at det er en mappe, ikke en fil.</p>
+
+<h3>Navigere inn i en mappe</h3>
+<div class="terminal-command">cd python-prosjekter</div>
+<p>Erstatt <code>python-prosjekter</code> med navnet på mappen du vil gå inn i.</p>
+
+<h3>Gå tilbake én mappe</h3>
+<div class="terminal-command">cd ..</div>
+<p>To punktum (<code>..</code>) betyr «mappen over denne».</p>
+
+<h3>Gå direkte til en bestemt mappe</h3>
+<div class="terminal-command">cd C:\Users\BrukernAVN\Skrivebordet\python-prosjekter</div>
+<p>Du kan skrive hele stien om du vil hoppe dit direkte.</p>
+
+<div class="notification-box tip">
+    Trykk <kbd>Tab</kbd> mens du skriver mappenavn — terminalen fullfører automatisk!
+    Trykk <kbd>↑</kbd> for å hente frem forrige kommando.
+</div>
+
+<h3>Opprett en ny mappe</h3>
+<div class="terminal-command">mkdir ny-mappe</div>
+
+<h3>Tøm skjermen</h3>
+<div class="terminal-command">cls</div>
+
+<h2>Del 3 – Kjøre Python fra terminalen</h2>
+
+<p>Dette er den viktigste ferdigheten. Slik kjører du et Python-program:</p>
+
+<ol class="step-list">
+    <li>
+        Naviger til mappen der Python-filen din ligger:
+        <div class="terminal-command">cd C:\Users\BrukernAVN\python-prosjekter</div>
+    </li>
+    <li>
+        Kjør programmet:
+        <div class="terminal-command">python filnavn.py</div>
+        Husk å erstatte <code>filnavn.py</code> med det faktiske filnavnet.
+    </li>
+</ol>
+
+<h3>Eksempel</h3>
+<p>Om du har en fil som heter <code>hilsen.py</code> med innholdet:</p>
+<div class="code-example">print("Hei, verden!")</div>
+
+<p>Kjører du den slik:</p>
+<div class="terminal-command">python hilsen.py</div>
+<div class="expected-output">Hei, verden!</div>
+
+<div class="notification-box windows-note">
+    I VSCode kan du også trykke på den grønne play-knappen (▶) øverst til høyre.
+    Det er fint for enkel testing, men det er lurt å lære seg terminalen også —
+    du trenger den for å installere pakker og gjøre mer avanserte ting.
+</div>
+
+<h2>Del 4 – Øv deg</h2>
+
+<p>Prøv disse oppgavene:</p>
+
+<div class="project-box">
+    <h2>🛠️ Øvingsoppgaver</h2>
+    <ol>
+        <li>Åpne terminalen og finn ut hvilken mappe du er i med <code>cd</code>.</li>
+        <li>Naviger til Skrivebordet med <code>cd C:\Users\&lt;ditt navn&gt;\Skrivebord</code>.</li>
+        <li>Opprett mappen <code>python-kurs</code> med <code>mkdir python-kurs</code>.</li>
+        <li>Gå inn i mappen med <code>cd python-kurs</code>.</li>
+        <li>Åpne mappen i VSCode: skriv <code>code .</code> (punktum betyr «denne mappen»).</li>
+        <li>Opprett en fil <code>hei.py</code> i VSCode, skriv en <code>print()</code>-setning, og kjør den fra terminalen.</li>
+    </ol>
+</div>
+
+<!-- ============================================================ -->
+<!-- Checklist                                                      -->
+<!-- ============================================================ -->
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan åpne terminalen i VSCode med <kbd>Ctrl</kbd> + <kbd>`</kbd></label></li>
+        <li><label><input type="checkbox"> Jeg kan liste filer med <code>dir</code> og navigere med <code>cd</code></label></li>
+        <li><label><input type="checkbox"> Jeg har opprettet en mappe fra terminalen med <code>mkdir</code></label></li>
+        <li><label><input type="checkbox"> Jeg har kjørt et Python-program fra terminalen</label></li>
+    </ul>
+</div>
+
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">
+        ✓ Du har allerede fullført denne leksjonen og fått 1 poeng!
+    </p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">
+        🎉 Flott! Du har fullført «Terminalen på Windows» og fått 1 poeng.
+        Neste leksjon: <a href="modul0-foerste-program.html">Ditt første Python-program →</a>
+    </div>
+</div>
+
+</div>
+</div>
+
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script src="lesson.js"></script>
+<script>
+    initLesson('modul0_terminal');
+</script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boss-kamp – Python-kurs</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        body { background: linear-gradient(135deg, #0d1b2a 0%, #1b2a3b 100%); }
+
+        .boss-wrapper {
+            max-width: 860px; margin: 20px auto; padding: 16px;
+            display: flex; flex-direction: column; gap: 16px;
+        }
+
+        /* ── Arena header ── */
+        .boss-arena {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,193,7,0.3);
+            border-radius: 16px; padding: 24px 28px;
+        }
+        .boss-arena .combatant-name    { font-size: 1.6em; }
+        .boss-arena .combatant-subtitle{ margin-bottom: 6px; }
+        .boss-arena .hp-track { width: 100%; margin-top: 10px; height: 16px; }
+
+        /* ── Battle row (player panel + challenge) ── */
+        .battle-row { display: flex; gap: 16px; align-items: flex-start; }
+
+        .player-panel {
+            width: 150px; flex-shrink: 0;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 14px; padding: 16px 12px;
+            display: flex; flex-direction: column; align-items: center;
+            text-align: center; gap: 2px;
+        }
+        .player-panel .hp-track { width: 100%; margin-top: auto; }
+
+        .sprite-box {
+            height: 140px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 6px;
+            transition: transform 0.1s;
+            font-size: 5em; line-height: 1;
+        }
+        #bossSprite { height: 200px; animation: bossFloat 3s ease-in-out infinite; }
+        @keyframes bossFloat {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-10px); }
+        }
+
+        .sprite-box.shake {
+            animation: bossShake 0.4s ease;
+        }
+        @keyframes bossShake {
+            0%,100%{transform:translateX(0)}
+            20%{transform:translateX(-12px) rotate(-4deg)}
+            40%{transform:translateX(12px)  rotate(4deg)}
+            60%{transform:translateX(-8px)}
+            80%{transform:translateX(8px)}
+        }
+
+        .combatant-name    { color: #ffc107; font-weight: 800; font-size: 1.15em; }
+        .combatant-subtitle{ color: #aaa; font-size: 0.8em; margin-bottom: 10px; }
+
+        .hp-track { height: 14px; background: #333; border-radius: 8px; overflow: hidden; margin-bottom: 4px; }
+        .hp-fill  { height: 100%; border-radius: 8px; transition: width 0.5s ease; }
+
+        .boss-hp-fill   { background: linear-gradient(90deg, #dc3545, #ff6b6b); }
+        .player-hp-fill { background: linear-gradient(90deg, #28a745, #51cf66); }
+        .hp-fill.critical { background: linear-gradient(90deg, #8b0000, #dc3545) !important; }
+
+        .hp-label { color: #ccc; font-size: 0.8em; text-align: right; }
+
+        /* ── Challenge panel ── */
+        .challenge-panel {
+            flex: 1; min-width: 0;
+            background: rgba(255,255,255,0.07);
+            border: 2px solid rgba(42,100,150,0.5);
+            border-radius: 14px; padding: 22px;
+        }
+
+        .challenge-progress {
+            color: #ffc107; font-size: 0.85em; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;
+        }
+
+        #challengeTitle { color: white; font-size: 1.3em; font-weight: 700; margin-bottom: 8px; }
+        #challengeDesc  { color: #bbb; line-height: 1.55; margin-bottom: 14px; }
+        #challengeDesc code { background: rgba(255,193,7,0.15); color: #ffc107; padding: 1px 5px; border-radius: 4px; }
+
+        .boss-editor {
+            width: 100%; min-height: 130px;
+            background: #1e1e1e; color: #d4d4d4;
+            border: 2px solid #444; border-radius: 8px;
+            font-family: 'Consolas','Courier New',monospace; font-size: 0.93em;
+            padding: 12px; resize: vertical; outline: none; tab-size: 4;
+        }
+        .boss-editor:focus { border-color: #ffc107; }
+
+        .boss-actions {
+            display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; align-items: center;
+        }
+
+        #bossSubmit {
+            background: #ffc107; color: #1a1a1a;
+            border: none; padding: 10px 28px; border-radius: 8px;
+            font-size: 1em; font-weight: 800; cursor: pointer; transition: all 0.2s;
+        }
+        #bossSubmit:hover:not(:disabled) { background: #e0a800; transform: translateY(-2px); }
+        #bossSubmit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        #bossHintBtn {
+            background: transparent; color: #aaa;
+            border: 1px solid #555; padding: 10px 18px; border-radius: 8px;
+            font-size: 0.9em; cursor: pointer; transition: all 0.2s;
+        }
+        #bossHintBtn:hover { border-color: #ffc107; color: #ffc107; }
+
+        .boss-result { margin-top: 12px; padding: 10px 14px; border-radius: 8px; font-weight: 600; font-size: 0.95em; }
+        .boss-result.correct { background: rgba(40,167,69,0.15); color: #51cf66; border-left: 4px solid #28a745; }
+        .boss-result.wrong   { background: rgba(220,53,69,0.15);  color: #ff6b6b; border-left: 4px solid #dc3545; }
+
+        #bossHint {
+            display: none; margin-top: 10px;
+            background: rgba(255,193,7,0.1); color: #ffc107;
+            padding: 10px 14px; border-radius: 8px; font-size: 0.9em;
+            border-left: 4px solid #ffc107;
+        }
+
+        /* ── Timer ── */
+        .timer-section { margin-top: 14px; }
+        .timer-label { color: #666; font-size: 0.75em; margin-bottom: 4px; }
+        .timer-track { height: 5px; background: #333; border-radius: 4px; overflow: hidden; }
+        #timerFill    { height: 100%; background: #ffc107; border-radius: 4px; width: 100%; transition: width 45s linear; }
+
+        /* ── Battle log ── */
+        .battle-log { background: rgba(0,0,0,0.35); border-radius: 10px; padding: 14px; min-height: 80px; }
+        .battle-log p { color: #ccc; font-size: 0.88em; margin: 4px 0; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .log-success { color: #51cf66 !important; }
+        .log-danger  { color: #ff6b6b !important; }
+
+        /* ── End screen ── */
+        #bossScreenOverlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.8); z-index: 500;
+            align-items: center; justify-content: center;
+        }
+        .end-card {
+            background: #1a2535; border-radius: 20px; padding: 40px;
+            text-align: center; max-width: 480px; width: 90%;
+            max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .end-card.victory { border: 3px solid #ffc107; }
+        .end-card.defeat  { border: 3px solid #dc3545; }
+        .end-icon { font-size: 4em; margin-bottom: 12px; }
+        .end-icon img { max-height: min(28vh, 220px); width: auto; }
+        .end-card h2 { color: white; margin-bottom: 8px; }
+        .end-card p  { color: #aaa; margin-bottom: 8px; }
+        .end-btn {
+            display: inline-block; margin: 8px 4px 0;
+            padding: 12px 24px; background: #ffc107; color: #1a1a1a;
+            border: none; border-radius: 10px; font-weight: 800;
+            font-size: 1em; cursor: pointer; text-decoration: none;
+            transition: all 0.2s;
+        }
+        .end-btn:hover { background: #e0a800; transform: translateY(-2px); }
+        .end-btn.secondary { background: #333; color: white; }
+        .end-btn.secondary:hover { background: #444; }
+
+        @media(max-height:700px) {
+            .end-card { padding: 20px 24px; }
+        }
+
+        @media(max-width:650px) {
+            .battle-row { flex-direction: column; }
+            .player-panel { width: 100%; flex-direction: row; gap: 14px; padding: 12px 14px; }
+            .player-panel .hp-track { margin-top: 0; flex: 1; }
+            #bossSprite { height: 90px; }
+            .sprite-box { font-size: 3em; height: 60px; }
+        }
+    </style>
+</head>
+<body>
+<a href="index.html" class="home-button">
+    <span>🏠</span><span class="home-button-text">Tilbake til kurs</span>
+</a>
+
+<div class="boss-wrapper">
+
+    <!-- Boss arena -->
+    <div class="boss-arena">
+        <div class="sprite-box" id="bossSprite">👾</div>
+        <div class="combatant-name" id="bossName">Boss</div>
+        <div class="combatant-subtitle" id="bossSubtitle"></div>
+        <div class="hp-track">
+            <div class="hp-fill boss-hp-fill" id="bossHpBar" style="width:100%"></div>
+        </div>
+        <div class="hp-label"><span id="bossHpText">400</span> HP</div>
+    </div>
+
+    <!-- Battle row: player panel + challenge -->
+    <div class="battle-row">
+
+    <div class="player-panel">
+        <div class="sprite-box" id="playerSprite"><img src="images/programmer1.png" style="height:140px;width:auto;display:block;margin:0 auto;"></div>
+        <div class="combatant-name">Du</div>
+        <div class="combatant-subtitle">Python-programmerer</div>
+        <div class="hp-track">
+            <div class="hp-fill player-hp-fill" id="playerHpBar" style="width:100%"></div>
+        </div>
+        <div class="hp-label"><span id="playerHpText">100</span> HP</div>
+    </div>
+
+    <!-- Challenge -->
+    <div class="challenge-panel">
+        <div class="challenge-progress" id="challengeNum">Utfordring 1 av 5</div>
+        <div id="challengeTitle">Laster…</div>
+        <div id="challengeDesc"></div>
+        <textarea class="boss-editor" id="bossEditor" spellcheck="false" autocomplete="off"></textarea>
+        <div class="boss-actions">
+            <button id="bossSubmit">▶ Test svar &nbsp;<small style="opacity:.7">(Ctrl+Enter)</small></button>
+            <button id="bossHintBtn">💡 Hint (−0 HP)</button>
+        </div>
+        <div class="boss-result" id="bossResult"></div>
+        <div id="bossHint"></div>
+        <div class="timer-section">
+            <div class="timer-label">⏱ Bossen angriper om…</div>
+            <div class="timer-track"><div id="timerFill"></div></div>
+        </div>
+    </div><!-- challenge-panel -->
+    </div><!-- battle-row -->
+
+    <!-- Battle log -->
+    <div class="battle-log" id="battleLog">
+        <p style="color:#555;">Kampen begynner…</p>
+    </div>
+
+</div>
+
+<!-- End screen overlay -->
+<div id="bossScreenOverlay"></div>
+
+<audio id="bossBgm"       src="sound/boss_battle.mp3" loop preload="auto"></audio>
+<audio id="bossFinalBgm" src="sound/final_boss.mp3"   loop preload="auto"></audio>
+<audio id="bossAttack1"  src="sound/attack1.wav"           preload="auto"></audio>
+<audio id="bossAttack2"  src="sound/attack2.wav"           preload="auto"></audio>
+<audio id="bossExplosion"src="sound/explosion.wav"         preload="auto"></audio>
+
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<script src="config.js"></script>
+<script src="modal.js"></script>
+<script src="auth.js"></script>
+<script src="boss-data.js"></script>
+<script src="boss.js"></script>
+<script>
+    const _moduleParam = new URLSearchParams(location.search).get('module');
+    const moduleId = _moduleParam !== null ? parseInt(_moduleParam) : 1;
+    if (!BOSS_DATA[moduleId]) {
+        document.body.innerHTML = '<p style="color:white;text-align:center;margin-top:100px">Ugyldig modul-ID</p>';
+    } else {
+        const boss = BOSS_DATA[moduleId];
+        document.title = `Boss-kamp: ${boss.name} – Python-kurs`;
+        document.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('bossScreenOverlay');
+            overlay.style.display = 'flex';
+            overlay.innerHTML = `
+                <div class="end-card" style="border:2px solid #ffc107;max-width:480px;">
+                    <div class="end-icon">${boss.image ? '<img src="' + boss.image + '" style="width:auto;">' : boss.sprite}</div>
+                    <h2 style="color:#ffc107;">${boss.name}</h2>
+                    <p style="color:#888;font-style:italic;margin-bottom:20px;">${boss.subtitle}</p>
+                    <div style="text-align:left;margin-bottom:22px;background:rgba(255,255,255,0.05);border-radius:10px;padding:16px;">
+                        <p style="color:#ccc;font-weight:700;margin:0 0 10px;">Slik fungerer kampen:</p>
+                        <ul style="color:#bbb;line-height:2;padding-left:18px;margin:0;">
+                            <li>Du har <strong style="color:#51cf66;">100 HP</strong> — bossen har <strong style="color:#ff6b6b;">400 HP</strong></li>
+                            <li>Riktig svar: bossen tar <strong style="color:#51cf66;">−80 HP</strong></li>
+                            <li>Feil svar: du tar <strong style="color:#ff6b6b;">−25 HP</strong></li>
+                            <li>Bossen angriper hvert 45. sekund <strong style="color:#ff6b6b;">(−20 HP)</strong></li>
+                            <li>Løs alle <strong style="color:#ffc107;">${boss.challenges.length} utfordringer</strong> for å vinne!</li>
+                        </ul>
+                    </div>
+                    <button id="startFightBtn" class="end-btn" style="font-size:1.1em;padding:14px 36px;">⚔️ Start kampen!</button>
+                </div>`;
+            document.getElementById('startFightBtn').addEventListener('click', () => {
+                overlay.style.display = 'none';
+                overlay.innerHTML = '';
+                initBoss(moduleId);
+            });
+        });
+    }
+</script>
+</body>
+</html>

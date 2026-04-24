@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 1 – Tekststrenger</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 1 – Tekststrenger</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Bruke de vanligste strengmetodene (.upper, .lower, .strip, .replace, .split, .count)</li>
+        <li>Finne lengden på en streng med <code>len()</code></li>
+        <li>Sjekke om en tekst inneholder noe med <code>in</code></li>
+        <li>Hente ut deler av en streng med indeks og slicing</li>
+    </ul>
+</div>
+
+<h2>Strenger er tekst</h2>
+<p>En streng er en sekvens av tegn. Du kan se på den som en rekke med bokser, der hver boks inneholder ett tegn, nummerert fra 0:</p>
+<div class="code-example">tekst = "Python"
+#         P  y  t  h  o  n
+#         0  1  2  3  4  5</div>
+
+<h3>Hente enkeltbokstaver (indeksering)</h3>
+<div class="python-terminal-container" data-start-code='tekst = "Python"
+print(tekst[0])   # P - første bokstav
+print(tekst[5])   # n - sjette bokstav
+print(tekst[-1])  # n - siste bokstav (negativt = bakfra)'></div>
+
+<h3>Hente deler av tekst (slicing)</h3>
+<div class="python-terminal-container" data-start-code='tekst = "Hei på deg!"
+print(tekst[0:3])   # Hei   (fra 0, opp til men ikke med 3)
+print(tekst[4:8])   # på d
+print(tekst[:3])    # Hei   (fra starten)
+print(tekst[4:])    # på deg!  (til slutten)'></div>
+
+<h2>De viktigste strengmetodene</h2>
+<p>Metoder kalles med et punktum etter strengen: <code>tekst.metode()</code></p>
+
+<div class="python-terminal-container" data-start-code='navn = "  ola nordmann  "
+print(navn.upper())        # store bokstaver
+print(navn.lower())        # små bokstaver
+print(navn.strip())        # fjern mellomrom rundt
+print(navn.strip().title()) # stor forbokstav hvert ord
+print(len(navn))           # antall tegn (inkl. mellomrom)'></div>
+
+<div class="python-terminal-container" data-start-code='setning = "Python er gøy og Python er kraftig"
+print(setning.replace("Python", "Koding"))
+print(setning.count("Python"))       # hvor mange ganger?
+print(setning.startswith("Python"))  # starter med?
+print("gøy" in setning)             # inneholder?'></div>
+
+<h3>Split — del opp en streng</h3>
+<p><code>.split()</code> deler en streng på mellomrom og returnerer en liste:</p>
+<div class="python-terminal-container" data-start-code='setning = "eple banan appelsin"
+ord = setning.split()
+print(ord)
+print(ord[0])   # første ord
+
+# Del på et annet tegn:
+dato = "2025-06-15"
+deler = dato.split("-")
+print(deler)  # ["2025", "06", "15"]'></div>
+
+<h3>Sammensette strenger</h3>
+<div class="python-terminal-container" data-start-code='forste = "Hei"
+siste = "verden"
+print(forste + " " + siste)  # konkatenering
+
+# Gjenta en streng:
+print("Ha" * 3)  # HaHaHa'></div>
+
+<div class="project-box">
+    <h2>📝 Oppgave: Analyse av brukernavn</h2>
+    <p>Lag <code>brukernavn.py</code>. Programmet skal:</p>
+    <ol>
+        <li>Be om brukernavnet og lagre det</li>
+        <li>Printe det med store bokstaver</li>
+        <li>Printe antall tegn i brukernavnet</li>
+        <li>Sjekke om brukernavnet inneholder bokstaven "a" (True/False)</li>
+    </ol>
+</div>
+
+<div class="python-terminal-container" data-start-code='brukernavn = input("Skriv brukernavnet ditt: ")
+# Legg til kode her'></div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan bruke indeks og slicing for å hente deler av en streng</label></li>
+        <li><label><input type="checkbox"> Jeg kan bruke .upper(), .lower(), .strip(), .replace(), .count()</label></li>
+        <li><label><input type="checkbox"> Jeg kan sjekke om noe er i en streng med <code>in</code></label></li>
+        <li><label><input type="checkbox"> Jeg har laget brukernavn-programmet i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Bra! Neste: <a href="modul1-tall.html">Tall og regning →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul1_strenger');</script>
+</body></html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 2 – While-løkker</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulkt-stdlib.js" onerror=""></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 2 – While-løkker</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Bruke while-løkker til å gjenta kode så lenge en betingelse er sann</li>
+        <li>Stoppe en løkke tidlig med <code>break</code></li>
+        <li>Hoppe til neste runde med <code>continue</code></li>
+        <li>Gjenkjenne og unngå uendelige løkker</li>
+    </ul>
+</div>
+
+<h2>While — gjenta så lenge</h2>
+<p>En while-løkke kjører om igjen og om igjen <strong>så lenge betingelsen er True</strong>. Når betingelsen blir False, stopper den.</p>
+
+<div class="python-terminal-container" data-start-code='teller = 1
+
+while teller <= 5:
+    print(f"Runde {teller}")
+    teller += 1  # VIKTIG: øk telleren, ellers kjører løkken evig!
+
+print("Løkken er ferdig.")'></div>
+
+<div class="notification-box important-note">
+    Glem aldri å endre variabelen som betingelsen sjekker! Om du gjør det, kjører programmet for alltid.
+    I terminalen kan du stoppe det med <kbd>Ctrl</kbd>+<kbd>C</kbd>.
+</div>
+
+<h3>Telle ned</h3>
+<div class="python-terminal-container" data-start-code='nedtelling = 5
+
+while nedtelling > 0:
+    print(nedtelling)
+    nedtelling -= 1
+
+print("🚀 Avfyring!")'></div>
+
+<h2>Break — avslutt løkken</h2>
+<p><code>break</code> stopper løkken umiddelbart, uansett om betingelsen fortsatt er True:</p>
+
+<div class="python-terminal-container" data-start-code='# Gjett et tall
+hemmelig = 7
+for forsok in range(1, 4):
+    gjett = int(input("Gjett et tall (1-10): "))
+    if gjett == hemmelig:
+        print("Riktig! 🎉")
+        break
+    print("Feil, prøv igjen.")
+else:
+    print("Du brukte alle forsøkene. Svaret var 7.")'></div>
+
+<h2>Continue — hopp til neste runde</h2>
+<p><code>continue</code> hopper over resten av koden i denne runden og går til neste:</p>
+
+<div class="python-terminal-container" data-start-code='i = 0
+while i < 10:
+    i += 1
+    if i % 2 == 0:
+        continue  # hopp over partall
+    print(i)      # printer bare oddetall: 1,3,5,7,9'></div>
+
+<h2>While True — løkke til du bryter</h2>
+<p>Et vanlig mønster er å lage en løkke som kjører til brukeren velger å slutte:</p>
+
+<div class="python-terminal-container" data-start-code='while True:
+    svar = input("Skriv noe (eller 'avslutt'): ")
+    if svar.lower() == "avslutt":
+        print("Ha det!")
+        break
+    print(f"Du skrev: {svar.upper()}")'></div>
+
+<div class="project-box">
+    <h2>🔐 Oppgave: Passordsjekk</h2>
+    <p>Lag <code>passord.py</code>. Programmet skal:</p>
+    <ul>
+        <li>Ha et hemmelig passord lagret som en variabel</li>
+        <li>Be brukeren gjette passord — gi dem 3 forsøk</li>
+        <li>Si om de gjetter riktig og avslutte, ellers si "Feil" og prøv igjen</li>
+        <li>Etter 3 feil: "For mange forsøk. Konto låst."</li>
+    </ul>
+</div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg forstår at while-løkken krever at jeg selv endrer telleren</label></li>
+        <li><label><input type="checkbox"> Jeg kan bruke break for å stoppe en løkke</label></li>
+        <li><label><input type="checkbox"> Jeg kan bruke continue for å hoppe til neste runde</label></li>
+        <li><label><input type="checkbox"> Jeg har laget passordsjekk-programmet i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul2-for.html">For-løkker →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul2_while');</script>
+</body></html>

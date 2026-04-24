@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 3 – Hva er en funksjon?</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 3 – Hva er en funksjon?</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Forstå hvorfor vi bruker funksjoner</li>
+        <li>Definere egne funksjoner med <code>def</code></li>
+        <li>Kalle (bruke) en funksjon</li>
+        <li>Forstå hva innrykk betyr i en funksjon</li>
+    </ul>
+</div>
+
+<h2>Hvorfor funksjoner?</h2>
+<p>Uten funksjoner må du skrive den samme koden om igjen hver gang du trenger den. Med funksjoner skriver du koden <strong>én gang</strong> og <strong>bruker den mange ganger</strong>.</p>
+
+<div class="python-terminal-container" data-start-code='# UTEN funksjon — gjentakelse
+print("=" * 20)
+print("Hei, Ola!")
+print("=" * 20)
+
+print("=" * 20)
+print("Hei, Kari!")
+print("=" * 20)'></div>
+
+<div class="python-terminal-container" data-start-code='# MED funksjon — mye bedre!
+def hils(navn):
+    print("=" * 20)
+    print(f"Hei, {navn}!")
+    print("=" * 20)
+
+hils("Ola")
+hils("Kari")
+hils("Per")'></div>
+
+<h2>Definere en funksjon</h2>
+<p>Syntaksen for å lage en funksjon:</p>
+<div class="code-example">def funksjons_navn():
+    # kode som kjøres når funksjonen kalles
+    print("Hei fra funksjonen!")</div>
+
+<ul>
+    <li><code>def</code> — kort for «define» (definer)</li>
+    <li><code>funksjons_navn</code> — velg et beskrivende navn</li>
+    <li><code>:</code> — kolon avslutte def-linjen</li>
+    <li>Innholdet er <strong>innrykket 4 mellomrom</strong></li>
+</ul>
+
+<h3>Kalle en funksjon</h3>
+<p>Å <em>kalle</em> en funksjon betyr å kjøre den. Du kaller den ved å skrive navnet etterfulgt av <code>()</code>:</p>
+
+<div class="python-terminal-container" data-start-code='def si_hei():
+    print("Hei!")
+    print("Hyggelig å møte deg.")
+
+# Kall funksjonen to ganger:
+si_hei()
+si_hei()'></div>
+
+<div class="notification-box important-note">
+    Funksjoner kjøres <strong>ikke</strong> bare ved å definere dem. Du må kalle dem med <code>funksjonsnavn()</code>.
+    Definisjon er som å lage en oppskrift — å kalle er å lage maten.
+</div>
+
+<h2>Rekkefølgen betyr noe</h2>
+<p>Du må definere funksjonen <em>før</em> du kaller den:</p>
+
+<div class="python-terminal-container" data-start-code='# Dette gir feil — funksjonen er ikke definert ennå:
+# si_adjø()   ← NameError!
+
+def si_adjø():
+    print("Ha det bra!")
+
+si_adjø()  # nå fungerer det'></div>
+
+<h2>En funksjon kan kalle en annen</h2>
+<div class="python-terminal-container" data-start-code='def tegn_linje():
+    print("-" * 30)
+
+def vis_overskrift(tekst):
+    tegn_linje()
+    print(tekst.center(30))
+    tegn_linje()
+
+vis_overskrift("Mitt program")
+print("Her er innholdet")
+vis_overskrift("Slutt")'></div>
+
+<div class="project-box">
+    <h2>🎨 Oppgave: Meny-printer</h2>
+    <p>Lag <code>meny.py</code>. Definer tre funksjoner:</p>
+    <ul>
+        <li><code>tegn_ramme()</code> — printer en linje med #-tegn</li>
+        <li><code>vis_meny()</code> — printer en meny med 3 valg inni en ramme</li>
+        <li><code>hoved()</code> — kaller vis_meny() og ber om brukerens valg</li>
+    </ul>
+</div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg vet at def definerer en funksjon, og () kaller den</label></li>
+        <li><label><input type="checkbox"> Jeg har skrevet og kalt en enkel funksjon</label></li>
+        <li><label><input type="checkbox"> Jeg forstår at innholdet i funksjonen er innrykket</label></li>
+        <li><label><input type="checkbox"> Jeg har laget meny-programmet i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul3-parametere.html">Parametere og argumenter →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul3_funksjoner');</script>
+</body></html>

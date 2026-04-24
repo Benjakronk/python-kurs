@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 2 – For-løkker</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulkt.min.js" onerror=""></script>
+<script src="https://skulpt.org/js/skulkt-stdlib.js" onerror=""></script>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 2 – For-løkker</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Bruke for-løkker med <code>range()</code> for å telle</li>
+        <li>Iterere over strenger og lister</li>
+        <li>Forstå parametrene til <code>range(start, stop, step)</code></li>
+        <li>Bruke <code>break</code> og <code>continue</code> i for-løkker</li>
+    </ul>
+</div>
+
+<h2>For — løkk gjennom en sekvens</h2>
+<p>En for-løkke går gjennom hvert element i en sekvens, én om gangen. Variabelen får automatisk den neste verdien i hver runde.</p>
+
+<div class="python-terminal-container" data-start-code='# Iterer gjennom en streng — hvert tegn er et element
+for bokstav in "Python":
+    print(bokstav)'></div>
+
+<h2>range() — lag en tallsekvens</h2>
+<p><code>range(n)</code> lager tallene 0, 1, 2, … n-1:</p>
+
+<div class="python-terminal-container" data-start-code='for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4'></div>
+
+<h3>range med start og stop</h3>
+<div class="python-terminal-container" data-start-code='# range(start, stop) — inkluderer start, ekskluderer stop
+for i in range(1, 6):
+    print(i)  # 1, 2, 3, 4, 5'></div>
+
+<h3>range med step</h3>
+<div class="python-terminal-container" data-start-code='# range(start, stop, step) — hopp med "step" om gangen
+for i in range(0, 11, 2):
+    print(i)  # 0, 2, 4, 6, 8, 10
+
+print("---")
+
+# Baklengs:
+for i in range(10, -1, -1):
+    print(i)  # 10, 9, 8, ... 0'></div>
+
+<h2>Bygge opp resultater i løkken</h2>
+<p>En vanlig teknikk: start med en verdi og bygg den opp runde for runde:</p>
+
+<div class="python-terminal-container" data-start-code='# Summer tallene 1 til 10
+total = 0
+for tall in range(1, 11):
+    total += tall
+
+print(f"Summen av 1–10 er {total}")  # 55'></div>
+
+<div class="python-terminal-container" data-start-code='# Finn det største tallet
+tall = [4, 7, 2, 9, 1, 6]
+storst = tall[0]
+
+for t in tall:
+    if t > storst:
+        storst = t
+
+print(f"Største tall: {storst}")'></div>
+
+<div class="project-box">
+    <h2>🧮 Oppgave: Multiplikasjonstabellen</h2>
+    <p>Lag <code>gangetabell.py</code>. Programmet spør om et tall og printer gangetabellen for det tallet (1×n til 10×n):</p>
+    <div class="expected-output">Hvilket tall? 7
+1 × 7 = 7
+2 × 7 = 14
+...
+10 × 7 = 70</div>
+</div>
+
+<div class="python-terminal-container" data-start-code='tall = int(input("Hvilket tall? "))
+for i in range(1, 11):
+    print(f"{i} × {tall} = {i * tall}")'></div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan bruke for-løkker med range(n), range(start, stop) og range(start, stop, step)</label></li>
+        <li><label><input type="checkbox"> Jeg kan iterere baklengs med negativ step</label></li>
+        <li><label><input type="checkbox"> Jeg kan summere og finne max/min i en løkke</label></li>
+        <li><label><input type="checkbox"> Jeg har laget gangetabellen i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul2-kombinert.html">Løkker og betingelser →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul2_for');</script>
+</body></html>

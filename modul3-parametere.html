@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 3 – Parametere og argumenter</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 3 – Parametere og argumenter</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Gi data inn i en funksjon med parametere</li>
+        <li>Forstå forskjellen mellom parameter (i def) og argument (i kallet)</li>
+        <li>Bruke standardverdier (default parameters)</li>
+        <li>Skrive funksjoner med flere parametere</li>
+    </ul>
+</div>
+
+<h2>Parametere — gi funksjonen data</h2>
+<p>Et parameter er en variabel i parentes etter funksjonsnavnet. Den får verdien av det du sender inn (argumentet):</p>
+
+<div class="python-terminal-container" data-start-code='def hils(navn):       # "navn" er parameteret
+    print(f"Hei, {navn}!")
+
+hils("Ola")           # "Ola" er argumentet
+hils("Kari")          # "Kari" er argumentet'></div>
+
+<h2>Flere parametere</h2>
+<div class="python-terminal-container" data-start-code='def presenter(fornavn, etternavn, alder):
+    print(f"Navn: {fornavn} {etternavn}")
+    print(f"Alder: {alder}")
+    print()
+
+presenter("Ola", "Nordmann", 16)
+presenter("Kari", "Hansen", 15)'></div>
+
+<div class="notification-box tip">
+    Rekkefølgen på argumentene <strong>matcher rekkefølgen</strong> på parameterne.
+    "Ola" går til <code>fornavn</code>, "Nordmann" til <code>etternavn</code>, 16 til <code>alder</code>.
+</div>
+
+<h2>Standardverdier</h2>
+<p>Du kan gi et parameter en standardverdi som brukes om argumentet ikke sendes:</p>
+
+<div class="python-terminal-container" data-start-code='def hils(navn, hilsen="Hei"):
+    print(f"{hilsen}, {navn}!")
+
+hils("Ola")             # bruker standard: "Hei"
+hils("Kari", "God dag")  # overstyrer standarden
+hils("Per", "Hola")'></div>
+
+<div class="python-terminal-container" data-start-code='def lag_kode(tegn="*", bredde=20):
+    print(tegn * bredde)
+
+lag_kode()           # standard: *×20
+lag_kode("#", 10)   # #×10
+lag_kode(bredde=30)  # kun bredde endres'></div>
+
+<h2>Navngitte argumenter</h2>
+<p>Du kan sende argumenter i hvilken som helst rekkefølge om du navngir dem:</p>
+
+<div class="python-terminal-container" data-start-code='def bestill(rett, antall=1, takeaway=False):
+    print(f"{antall} × {rett}")
+    if takeaway:
+        print("  → Takeaway")
+
+bestill("pizza", takeaway=True, antall=2)
+bestill(antall=1, rett="burger")'></div>
+
+<div class="project-box">
+    <h2>🧾 Oppgave: Kvitteringsgenerator</h2>
+    <p>Lag <code>kvittering.py</code>. Definer en funksjon <code>legg_til(vare, pris, antall=1)</code> som printer:</p>
+    <div class="expected-output">2 × Banan       kr 5.90 = kr 11.80</div>
+    <p>Kall funksjonen 3 ganger med ulike varer og print til slutt en totalsum.</p>
+</div>
+
+<div class="python-terminal-container" data-start-code='total = 0
+
+def legg_til(vare, pris, antall=1):
+    global total
+    sum_vare = pris * antall
+    total += sum_vare
+    print(f"{antall} × {vare:<12} kr {pris:.2f} = kr {sum_vare:.2f}")
+
+legg_til("Banan", 5.90, 2)
+legg_til("Melk", 19.90)
+legg_til("Brød", 35.0)
+print("-" * 40)
+print(f"Totalt: kr {total:.2f}")'></div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan sende data inn i funksjoner med parametere</label></li>
+        <li><label><input type="checkbox"> Jeg kan sette standardverdier for parametere</label></li>
+        <li><label><input type="checkbox"> Jeg kan bruke navngitte argumenter</label></li>
+        <li><label><input type="checkbox"> Jeg har laget kvitteringsgeneratoren i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul3-return.html">Returverdier →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul3_parametere');</script>
+</body></html>

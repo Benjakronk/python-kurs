@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 4 – Løkker med datastrukturer</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 4 – Løkker med datastrukturer</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Bruke enumerate() for å få indeks og verdi samtidig</li>
+        <li>Bruke zip() for å koble to lister</li>
+        <li>Lagre ordbøker i lister (lister av ordbøker)</li>
+        <li>Filtrere og transformere data i løkker</li>
+    </ul>
+</div>
+
+<h2>enumerate() — indeks og verdi</h2>
+<div class="python-terminal-container" data-start-code='frukter = ["eple", "banan", "appelsin"]
+
+for indeks, frukt in enumerate(frukter):
+    print(f"{indeks}: {frukt}")
+
+print("---")
+# Start på 1 istedenfor 0:
+for nr, frukt in enumerate(frukter, start=1):
+    print(f"{nr}. {frukt}")'></div>
+
+<h2>zip() — koble to lister</h2>
+<div class="python-terminal-container" data-start-code='navn = ["Ola", "Kari", "Per"]
+karakterer = [5, 4, 6]
+
+for elev, karakter in zip(navn, karakterer):
+    print(f"{elev} fikk karakter {karakter}")'></div>
+
+<h2>Lister av ordbøker</h2>
+<p>Et vanlig mønster: en liste der hvert element er en ordbok med informasjon om ett objekt.</p>
+
+<div class="python-terminal-container" data-start-code='elever = [
+    {"navn": "Ola",  "karakter": 5},
+    {"navn": "Kari", "karakter": 6},
+    {"navn": "Per",  "karakter": 3},
+    {"navn": "Mia",  "karakter": 4},
+]
+
+# Print alle som fikk 5 eller bedre:
+for elev in elever:
+    if elev["karakter"] >= 5:
+        print(f"{elev['navn']}: {elev['karakter']}")'></div>
+
+<h2>Filtrere og samle</h2>
+<div class="python-terminal-container" data-start-code='tall = [4, 7, 2, 9, 1, 6, 8, 3]
+
+# Filtrer — behold bare partall:
+partall = [t for t in tall if t % 2 == 0]
+print("Partall:", partall)
+
+# Transformer — doble alle:
+doble = [t * 2 for t in tall]
+print("Doble:", doble)'></div>
+
+<div class="project-box">
+    <h2>🏆 Oppgave: Toppliste</h2>
+    <p>Lag <code>toppliste.py</code>. Start med en liste av ordbøker med spiller-navn og poeng. Programmet skal:</p>
+    <ul>
+        <li>Printe alle spillere med poeng</li>
+        <li>Finne og printe vinnerens navn</li>
+        <li>Printe gjennomsnittlig poeng</li>
+    </ul>
+    <div class="code-example">spillere = [
+    {"navn": "Ola",  "poeng": 1450},
+    {"navn": "Kari", "poeng": 2300},
+    {"navn": "Per",  "poeng": 800},
+    {"navn": "Mia",  "poeng": 1900},
+]</div>
+</div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan bruke enumerate() og zip()</label></li>
+        <li><label><input type="checkbox"> Jeg kan jobbe med lister av ordbøker</label></li>
+        <li><label><input type="checkbox"> Jeg kan filtrere data med if i en løkke</label></li>
+        <li><label><input type="checkbox"> Jeg har laget topplisten i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Modul 4 ferdig! <a href="index.html">Tilbake til kursoversikten →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul4_loekker_data');</script>
+</body></html>

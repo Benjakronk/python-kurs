@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 1 – Kommentarer og kodestil</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 1 – Kommentarer og kodestil</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Skrive kommentarer med <code>#</code> for å forklare koden</li>
+        <li>Vite når og hvordan kommentarer er nyttige</li>
+        <li>Kjenne de viktigste Python-konvensjonene for ryddig kode</li>
+    </ul>
+</div>
+
+<h2>Kommentarer med #</h2>
+<p>Alt etter <code>#</code> på en linje er en kommentar — Python ignorerer det fullstendig. Kommentarer er til for mennesker, ikke maskiner.</p>
+
+<div class="python-terminal-container" data-start-code='# Beregn arealet av en sirkel
+radius = 5
+pi = 3.14159
+
+areal = pi * radius ** 2  # r² ganger pi
+print(f"Areal: {areal:.2f}")'></div>
+
+<div class="notification-box good-practice">
+    Skriv kommentarer som forklarer <em>hvorfor</em> du gjør noe, ikke <em>hva</em> du gjør.
+    Koden viser <em>hva</em> — kommentarene gir kontekst.
+</div>
+
+<div class="notification-box bad-practice">
+    <code>x = x + 1  # legg til 1 til x</code> — unødvendig kommentar.
+    Koden er allerede selvforklarende.
+</div>
+
+<h2>Flerlinjekommentarer</h2>
+<p>For lange forklaringer kan du enten bruke <code>#</code> på flere linjer, eller en trippel-anførselstegn-streng:</p>
+
+<div class="code-example"># Dette er linje 1 av kommentaren
+# og dette er linje 2
+
+"""
+Dette er en flerlinjestreng.
+Den brukes ofte som dokumentasjon
+øverst i en funksjon eller fil.
+"""</div>
+
+<h2>God kodestil i Python</h2>
+
+<p>Python-fellesskapet har en stilguide kalt <strong>PEP 8</strong>. Her er de viktigste punktene:</p>
+
+<h3>Innrykk: alltid 4 mellomrom</h3>
+<div class="notification-box important-note">
+    Python bruker innrykk (spaces/tab) for å vise hva som hører sammen.
+    Bruk alltid 4 mellomrom — aldri bland mellomrom og tab.
+    VSCode gjør dette automatisk når du trykker Tab.
+</div>
+
+<h3>Variabelnavn: snake_case</h3>
+<div class="code-example"># ✅ Slik: ord_adskilt_med_understrek
+fornavn_bruker = "Ola"
+maks_antall    = 100
+
+# ❌ Ikke slik:
+FornavnBruker = "Ola"   # CamelCase brukes til klasser
+maksAntall    = 100     # lowerCamelCase brukes i andre språk</div>
+
+<h3>Tomme linjer for lesbarhet</h3>
+<div class="python-terminal-container" data-start-code='# Grupper relatert kode med en tom linje mellom gruppene
+navn  = "Ola"
+alder = 16
+
+melding = f"Hei, {navn}!"
+print(melding)
+print(f"Du er {alder} år gammel.")'></div>
+
+<h3>Ikke forkort navn unødvendig</h3>
+<div class="code-example"># ✅ Tydelig
+antall_studenter = 25
+gjennomsnitt_poeng = 4.2
+
+# ❌ Uklart
+a = 25
+gp = 4.2</div>
+
+<div class="project-box">
+    <h2>🧹 Oppgave: Rydd opp i koden</h2>
+    <p>Kopier koden under til <code>ryddig.py</code> i VSCode og gjør den bedre:</p>
+    <div class="code-example">x=int(input("tall: "))
+y=int(input("tall: "))
+z=x+y
+print("svar:",z)</div>
+    <p>Forbedringene skal:</p>
+    <ul>
+        <li>Gi variablene beskrivende navn</li>
+        <li>Legge til mellomrom rundt <code>=</code> og etter <code>,</code></li>
+        <li>Legge til en kommentar øverst som forklarer hva programmet gjør</li>
+        <li>Bruke en f-streng for output</li>
+    </ul>
+</div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan skrive nyttige kommentarer med #</label></li>
+        <li><label><input type="checkbox"> Jeg bruker snake_case for variabelnavn</label></li>
+        <li><label><input type="checkbox"> Jeg har ryddet opp i koden i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Modul 1 er nå nesten ferdig! Gå til <a href="index.html">kursoversikten</a> for å se om du kan låse opp Modul 2.</div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul1_kommentarer');</script>
+</body></html>

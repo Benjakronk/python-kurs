@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 1 – Variabler og datatyper</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button">
+    <span>🏠</span>
+    <span class="home-button-text">Tilbake til kurs</span>
+</a>
+<div id="userBadge" class="user-badge">👤</div>
+
+<!-- Skulpt — load before python-terminal.js -->
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+
+<div class="container">
+<div class="course-container">
+
+<h1>Modul 1 – Variabler og datatyper</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <p>Etter denne leksjonen skal du kunne:</p>
+    <ul>
+        <li>Opprette variabler og gi dem verdier</li>
+        <li>Gjenkjenne de fire vanligste datatypene: <code>str</code>, <code>int</code>, <code>float</code> og <code>bool</code></li>
+        <li>Bruke <code>type()</code> til å sjekke hva slags verdi du har</li>
+        <li>Følge Python sine navneregler for variabler</li>
+    </ul>
+</div>
+
+<h2>Hva er en variabel?</h2>
+
+<p>Tenk på en variabel som en <strong>merket eske</strong>. Du putter noe oppi esken, setter en lapp på
+den med et navn — og når du vil ha tak i det igjen, ber du bare om esken med det navnet.</p>
+
+<div class="code-example">navn = "Ola"</div>
+
+<p>Her lager vi en variabel som heter <code>navn</code> og putter teksten <code>"Ola"</code> oppi.
+Likhetstegnet (<code>=</code>) betyr ikke «er lik» — det betyr <strong>«lagre dette»</strong>.</p>
+
+<p>Når du så skriver <code>navn</code> et annet sted i koden, henter Python frem verdien «Ola».</p>
+
+<div class="python-terminal-container" data-start-code='navn = "Ola"
+print(navn)
+print("Hei,", navn)'></div>
+
+<h2>De fire viktigste datatypene</h2>
+
+<p>Python har mange typer verdier. De fire du trenger å kjenne til nå:</p>
+
+<h3>1. Tekst — <code>str</code> (string)</h3>
+<p>Tekst skrives alltid inni anførselstegn. «str» er kort for «string» (streng).</p>
+<div class="code-example">fornavn  = "Ola"
+etternavn= "Nordmann"
+hilsen   = "God morgen!"</div>
+
+<h3>2. Heltall — <code>int</code> (integer)</h3>
+<p>Heltall skrives uten anførselstegn og uten desimaler.</p>
+<div class="code-example">alder     = 15
+antall    = 42
+temperatur= -3   # negative tall fungerer også</div>
+
+<h3>3. Desimaltall — <code>float</code></h3>
+<p>Desimaltall skrives med punktum (ikke komma — Python er internasjonalt).</p>
+<div class="code-example">pi        = 3.14159
+pris      = 49.90
+karakter  = 5.5</div>
+
+<h3>4. Sannhetsverdi — <code>bool</code> (boolean)</h3>
+<p>En <code>bool</code> kan bare være to ting: <code>True</code> (sant) eller <code>False</code> (usant).
+Legg merke til stor forbokstav!</p>
+<div class="code-example">er_student   = True
+har_bil      = False
+er_voksen    = False</div>
+
+<div class="notification-box important-note">
+    Aldri skriv <code>true</code> eller <code>false</code> med liten bokstav.
+    Python vil ikke forstå det og gi deg en feil.
+</div>
+
+<h2>Prøv alle fire typene</h2>
+
+<div class="python-terminal-container" data-start-code='# Prøv å endre verdiene og kjør på nytt
+navn     = "Ola"
+alder    = 15
+hoyde    = 1.75
+er_glad  = True
+
+print(navn)
+print(alder)
+print(hoyde)
+print(er_glad)'></div>
+
+<h2>Sjekke typen med <code>type()</code></h2>
+
+<p>Lurer du på hvilken type en variabel er? Bruk <code>type()</code>:</p>
+
+<div class="python-terminal-container" data-start-code='navn  = "Ola"
+alder = 15
+pris  = 9.90
+ferdig= True
+
+print(type(navn))
+print(type(alder))
+print(type(pris))
+print(type(ferdig))'></div>
+
+<p>Du skal se:</p>
+<div class="expected-output">&lt;class 'str'&gt;
+&lt;class 'int'&gt;
+&lt;class 'float'&gt;
+&lt;class 'bool'&gt;</div>
+
+<h2>Navneregler for variabler</h2>
+
+<p>Python er streng på hva variabler kan hete:</p>
+
+<div class="notification-box good-practice">
+    Bruk kun bokstaver, tall og understrek (<code>_</code>).
+    Start alltid med en bokstav eller understrek.
+    Bruk beskrivende navn: <code>alder_til_bruker</code> er bedre enn <code>a</code>.
+</div>
+
+<div class="notification-box bad-practice">
+    Ikke bruk mellomrom (<code>mitt navn</code> er ugyldig).
+    Ikke start med et tall (<code>1variabel</code> er ugyldig).
+    Ikke bruk norske tegn (æ, ø, å) i variabelnavn — det kan skape problemer.
+</div>
+
+<table style="width:100%; border-collapse:collapse; margin: 16px 0;">
+    <thead>
+        <tr style="background:#2a6496; color:white;">
+            <th style="padding:10px; text-align:left;">✅ Gyldig</th>
+            <th style="padding:10px; text-align:left;">❌ Ugyldig</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="background:#f0f4f8;"><td style="padding:8px;"><code>fornavn</code></td><td style="padding:8px;"><code>for navn</code> (mellomrom)</td></tr>
+        <tr><td style="padding:8px;"><code>alder_til_bruker</code></td><td style="padding:8px;"><code>1alder</code> (starter med tall)</td></tr>
+        <tr style="background:#f0f4f8;"><td style="padding:8px;"><code>_privat</code></td><td style="padding:8px;"><code>my-variable</code> (bindestrek)</td></tr>
+        <tr><td style="padding:8px;"><code>maks_poeng</code></td><td style="padding:8px;"><code>høyde</code> (norsk tegn)</td></tr>
+    </tbody>
+</table>
+
+<h2>Variabler kan endres</h2>
+
+<p>En variabel er ikke låst — du kan gi den en ny verdi når som helst:</p>
+
+<div class="python-terminal-container" data-start-code='poeng = 0
+print("Start:", poeng)
+
+poeng = 10
+print("Etter første runde:", poeng)
+
+poeng = 25
+print("Etter andre runde:", poeng)'></div>
+
+<h2>Mange variabler på én linje (valgfritt)</h2>
+
+<p>Python lar deg sette mange variabler på én linje, adskilt med komma. Dette er ikke nødvendig,
+men du vil kanskje se det i andres kode:</p>
+
+<div class="code-example">x, y, z = 1, 2, 3</div>
+
+<h2>Prosjekt: lag en «id-kortgenerator»</h2>
+
+<div class="project-box">
+    <h2>🪪 Oppgave</h2>
+    <p>Lag et program i VSCode (<code>idkort.py</code>) som lagrer opplysninger om deg og printer dem pent.</p>
+    <p>Programmet skal printe noe som ligner:</p>
+    <div class="expected-output">--- ID-KORT ---
+Navn: Ola Nordmann
+Alder: 15
+Favorittall: 7
+Er glad i Python: True</div>
+    <p>Krav:</p>
+    <ul>
+        <li>Bruk én variabel per opplysning</li>
+        <li>Alle fire datatypene (<code>str</code>, <code>int</code>, <code>float</code>, <code>bool</code>) skal brukes minst én gang</li>
+    </ul>
+    <p>Prøv gjerne i terminalen under først:</p>
+</div>
+
+<div class="python-terminal-container" data-start-code='# Skriv din løsning her og prøv den ut, deretter kopier til VSCode
+navn = "Ditt navn"
+
+print("--- ID-KORT ---")
+print("Navn:", navn)
+# Legg til resten her...'></div>
+
+<!-- ============================================================ -->
+<!-- Checklist                                                      -->
+<!-- ============================================================ -->
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan opprette variabler av alle fire typer (str, int, float, bool)</label></li>
+        <li><label><input type="checkbox"> Jeg har brukt <code>type()</code> til å sjekke datatyper</label></li>
+        <li><label><input type="checkbox"> Jeg kjenner navnereglene og vet hvilke variabelnavn som er ugyldige</label></li>
+        <li><label><input type="checkbox"> Jeg har laget «id-kortgeneratoren» i VSCode og kjørt den</label></li>
+    </ul>
+</div>
+
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">
+        ✓ Du har allerede fullført denne leksjonen og fått 1 poeng!
+    </p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">
+        🎉 Bra! Du forstår nå variabler og datatyper i Python.
+        Neste leksjon: <a href="modul1-print-input.html">Print og input →</a>
+    </div>
+</div>
+
+</div>
+</div>
+
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script src="lesson.js"></script>
+<script src="python-terminal.js"></script>
+<script>
+    initLesson('modul1_variabler');
+</script>
+</body>
+</html>

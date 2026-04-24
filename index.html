@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benjamins Python-kurs</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .boss-btn {
+            display: block; width: 100%; margin-top: 14px;
+            padding: 10px; background: linear-gradient(135deg, #b8860b, #ffc107);
+            color: #1a1a1a; border: none; border-radius: 10px;
+            font-size: 1em; font-weight: 800; cursor: pointer;
+            text-decoration: none; text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255,193,7,0.3);
+        }
+        .boss-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,193,7,0.45); }
+        .boss-defeated-badge {
+            display: block; margin-top: 14px; padding: 8px;
+            background: rgba(40,167,69,0.12); border: 2px solid #28a745;
+            border-radius: 10px; color: #28a745; font-weight: 700;
+            font-size: 0.9em; text-align: center;
+        }
+
+        /* Boss unlock announcement toast */
+        .boss-unlock-toast {
+            position: fixed; bottom: 30px; right: 30px; z-index: 1000;
+            background: linear-gradient(135deg, #1a2a3a 0%, #0d1b2a 100%);
+            border: 2px solid #ffc107; border-radius: 16px;
+            padding: 20px 22px; max-width: 310px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.55), 0 0 40px rgba(255,193,7,0.18);
+            animation: bossToastIn 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes bossToastIn {
+            from { transform: translateX(130%); opacity: 0; }
+            to   { transform: translateX(0);    opacity: 1; }
+        }
+        .boss-toast-label {
+            color: #ffc107; font-size: 0.72em; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 12px;
+        }
+        .boss-toast-body {
+            display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+        }
+        .boss-toast-sprite { font-size: 2.8em; line-height: 1; }
+        .boss-toast-name   { color: white; font-weight: 800; font-size: 1.05em; margin-bottom: 2px; }
+        .boss-toast-sub    { color: #aaa; font-size: 0.78em; line-height: 1.4; }
+        .boss-toast-actions { display: flex; gap: 8px; }
+        .boss-toast-fight {
+            flex: 1; padding: 9px 14px;
+            background: linear-gradient(135deg, #b8860b, #ffc107);
+            color: #1a1a1a; border-radius: 8px; font-weight: 800;
+            font-size: 0.88em; text-decoration: none; text-align: center;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .boss-toast-fight:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,193,7,0.35); }
+        .boss-toast-dismiss {
+            padding: 9px 14px; background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15); color: #ccc;
+            border-radius: 8px; font-size: 0.88em; font-weight: 600;
+            cursor: pointer; transition: background 0.15s;
+        }
+        .boss-toast-dismiss:hover { background: rgba(255,255,255,0.15); color: white; }
+    </style>
+</head>
+<body data-require-auth="true">
+
+<!-- User badge (top right) -->
+<div class="user-badge" id="userBadge">👤 Logg inn</div>
+
+<!-- Auth modal -->
+<div class="auth-overlay hidden" id="authOverlay">
+    <div class="auth-modal">
+        <h2>🐍 Python-kurs</h2>
+        <p style="color: var(--text-light); margin-bottom: 16px;">
+            Logg inn for å lagre fremgangen din på tvers av enheter.
+        </p>
+        <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="login">Logg inn</button>
+            <button class="auth-tab" data-tab="register">Ny bruker</button>
+        </div>
+
+        <!-- Login form -->
+        <div id="loginForm" class="auth-form">
+            <div id="loginError" class="auth-error"></div>
+            <label for="loginName">Navn</label>
+            <input type="text" id="loginName" placeholder="Ditt navn" autocomplete="username">
+            <label for="loginPassword">Passord</label>
+            <input type="password" id="loginPassword" placeholder="Ditt passord" autocomplete="current-password">
+            <button class="auth-submit" id="loginSubmit">Logg inn</button>
+            <button class="auth-guest-btn" id="guestBtn">Fortsett uten konto →</button>
+            <p class="auth-info" style="margin-top: 10px;">
+                Uten konto lagres fremgangen din kun i denne nettleseren.
+            </p>
+        </div>
+
+        <!-- Register form -->
+        <div id="registerForm" class="auth-form" style="display:none;">
+            <div id="registerError" class="auth-error"></div>
+            <label for="registerName">Navn</label>
+            <input type="text" id="registerName" placeholder="Ditt navn" autocomplete="username">
+            <label for="registerPassword">Velg passord</label>
+            <input type="password" id="registerPassword" placeholder="Passord" autocomplete="new-password">
+            <label for="registerPassword2">Bekreft passord</label>
+            <input type="password" id="registerPassword2" placeholder="Gjenta passord" autocomplete="new-password">
+            <button class="auth-submit" id="registerSubmit">Opprett konto</button>
+            <button class="auth-guest-btn" id="guestBtn2">Fortsett uten konto →</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- Hero -->
+    <div class="hero fade-in">
+        <h1>🐍 Benjamins Python-kurs</h1>
+        <p>Lær å programmere med Python — fra ditt aller første program til å lage noe du er stolt av.</p>
+    </div>
+
+    <!-- Progress overview -->
+    <div class="progress-overview">
+        <h2>📊 Din fremgang</h2>
+        <div class="progress-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCredits">0</div>
+                <div class="stat-label">Poeng totalt</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completedLessons">0</div>
+                <div class="stat-label">Fullførte leksjoner</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="unlockedModules">1</div>
+                <div class="stat-label">Åpne moduler</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalProgress">0%</div>
+                <div class="stat-label">Total fremgang</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Module grid — rendered by JS below -->
+    <div class="modules-grid" id="modulesGrid"></div>
+
+    <!-- How credits work -->
+    <div style="background:rgba(255,255,255,0.12); color:white; padding: 30px; border-radius: 15px; margin: 30px 0; text-align:center;">
+        <h2 style="background:none; -webkit-text-fill-color:white; font-size:1.4em;">💡 Slik fungerer poeng</h2>
+        <p style="opacity:0.9; margin:0;">
+            Hver leksjon du fullfører gir <strong>1 poeng</strong>.
+            Du trenger ikke fullføre <em>alle</em> leksjonene i en modul for å låse opp neste —
+            bare nok poeng. Hopp gjerne over det du allerede kan og kom tilbake senere!
+        </p>
+    </div>
+
+</div>
+
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+<script src="config.js"></script>
+<script src="modal.js"></script>
+<script src="auth.js"></script>
+<script src="boss-data.js"></script>
+<script>
+// ============================================================
+// Module + lesson data
+// ============================================================
+const MODULES = [
+    {
+        id: 0,
+        name: "Kom i gang",
+        icon: "🚀",
+        description: "Installer Python og VSCode, og lær terminalen å kjenne",
+        unlockRequirement: null, // always unlocked
+        lessons: [
+            { id: "modul0_oppsett",         name: "Python og VSCode på Windows",    file: "modul0-oppsett.html",         difficulty: "beginner" },
+            { id: "modul0_terminal",         name: "Terminalen på Windows",          file: "modul0-terminal.html",        difficulty: "beginner" },
+            { id: "modul0_foerste_program",  name: "Ditt første Python-program",     file: "modul0-foerste-program.html", difficulty: "beginner" },
+        ]
+    },
+    {
+        id: 1,
+        name: "Python grunnleggende",
+        icon: "🐍",
+        description: "Variabler, datatyper og de første byggesteinene",
+        unlockRequirement: { module: 0, credits: 2 }, // need 2 of 3 lessons
+        lessons: [
+            { id: "modul1_variabler",    name: "Variabler og datatyper",      file: "modul1-variabler.html",    difficulty: "beginner" },
+            { id: "modul1_print_input",  name: "Print og input",              file: "modul1-print-input.html",  difficulty: "beginner" },
+            { id: "modul1_strenger",     name: "Tekststrenger",               file: "modul1-strenger.html",     difficulty: "intermediate" },
+            { id: "modul1_tall",         name: "Tall og regning",             file: "modul1-tall.html",         difficulty: "beginner" },
+            { id: "modul1_kommentarer",  name: "Kommentarer og kodestil",     file: "modul1-kommentarer.html",  difficulty: "beginner" },
+        ]
+    },
+    {
+        id: 2,
+        name: "Kontrollflyt",
+        icon: "🔀",
+        description: "Ta beslutninger og gjenta handlinger i koden din",
+        unlockRequirement: { module: 1, credits: 3 }, // need 3 of 5 lessons
+        lessons: [
+            { id: "modul2_if",        name: "If, elif og else",           file: "modul2-if.html",        difficulty: "intermediate" },
+            { id: "modul2_while",     name: "While-løkker",               file: "modul2-while.html",     difficulty: "intermediate" },
+            { id: "modul2_for",       name: "For-løkker",                 file: "modul2-for.html",       difficulty: "intermediate" },
+            { id: "modul2_kombinert", name: "Løkker og betingelser",      file: "modul2-kombinert.html", difficulty: "advanced" },
+        ]
+    },
+    {
+        id: 3,
+        name: "Funksjoner",
+        icon: "⚙️",
+        description: "Lag gjenbrukbare kodeblokker og hold koden ryddig",
+        unlockRequirement: { module: 2, credits: 3 }, // need 3 of 4 lessons
+        lessons: [
+            { id: "modul3_funksjoner",  name: "Hva er en funksjon?",       file: "modul3-funksjoner.html",  difficulty: "intermediate" },
+            { id: "modul3_parametere",  name: "Parametere og argumenter",  file: "modul3-parametere.html",  difficulty: "intermediate" },
+            { id: "modul3_return",      name: "Returverdier",              file: "modul3-return.html",      difficulty: "intermediate" },
+            { id: "modul3_innebygde",   name: "Innebygde funksjoner",      file: "modul3-innebygde.html",   difficulty: "advanced" },
+        ]
+    },
+    {
+        id: 4,
+        name: "Lister og ordbøker",
+        icon: "📦",
+        description: "Lagre og organisere mange verdier på en gang",
+        unlockRequirement: { module: 3, credits: 3 }, // need 3 of 4 lessons
+        lessons: [
+            { id: "modul4_lister",        name: "Lister",                      file: "modul4-lister.html",        difficulty: "intermediate" },
+            { id: "modul4_liste_metoder", name: "Listemetoder",                file: "modul4-liste-metoder.html", difficulty: "intermediate" },
+            { id: "modul4_ordboker",      name: "Ordbøker",                   file: "modul4-ordboker.html",      difficulty: "intermediate" },
+            { id: "modul4_loekker_data",  name: "Løkker med datastrukturer",  file: "modul4-loekker-data.html",  difficulty: "advanced" },
+        ]
+    },
+    {
+        id: 5,
+        name: "Filer og moduler",
+        icon: "📂",
+        description: "Les og skriv filer, bruk Pythons innebygde biblioteker",
+        unlockRequirement: { module: 4, credits: 3 }, // need 3 of 4 lessons
+        lessons: [
+            { id: "modul5_les_filer",     name: "Lese filer",         file: "modul5-les-filer.html",     difficulty: "advanced" },
+            { id: "modul5_skriv_filer",   name: "Skrive til filer",   file: "modul5-skriv-filer.html",   difficulty: "advanced" },
+            { id: "modul5_feilhandtering",name: "Feilhåndtering",     file: "modul5-feilhandtering.html", difficulty: "advanced" },
+            { id: "modul5_moduler",       name: "Nyttige moduler",    file: "modul5-moduler.html",       difficulty: "advanced" },
+        ]
+    },
+];
+
+// ============================================================
+// Credit logic
+// ============================================================
+
+function getCredits(moduleId) {
+    const mod = MODULES[moduleId];
+    return mod.lessons.filter(l => localStorage.getItem(l.id) === 'true').length;
+}
+
+function isUnlocked(moduleId) {
+    const mod = MODULES[moduleId];
+    if (!mod.unlockRequirement) return true;
+    const { module: prereqId, credits: required } = mod.unlockRequirement;
+    return getCredits(prereqId) >= required;
+}
+
+function isBossAvailable(moduleId) {
+    return MODULES[moduleId].lessons.every(l => localStorage.getItem(l.id) === 'true');
+}
+
+function isBossDefeated(moduleId) {
+    return localStorage.getItem(`boss_modul${moduleId}_defeated`) === 'true';
+}
+
+// ============================================================
+// Rendering
+// ============================================================
+
+function difficultyLabel(d) {
+    const map = { beginner: 'Nybegynner', intermediate: 'Middels', advanced: 'Avansert' };
+    return `<span class="lesson-difficulty difficulty-${d}">${map[d] || d}</span>`;
+}
+
+function renderCreditBar(earned, total, required) {
+    const pct     = total === 0 ? 0 : Math.min(100, Math.round((earned / required) * 100));
+    const full    = earned >= required;
+    const fillCls = full ? 'credit-bar-fill full' : 'credit-bar-fill';
+    const msg     = full
+        ? `<span class="credit-unlock-msg unlocked">✅ Modul låst opp!</span>`
+        : `<span class="credit-unlock-msg locked">${earned} / ${required} poeng fra forrige modul</span>`;
+    return `
+        <div class="credit-section">
+            <div class="credit-label">
+                <span>${msg}</span>
+                <strong>${earned} / ${required}</strong>
+            </div>
+            <div class="credit-bar-track">
+                <div class="${fillCls}" style="width:${pct}%"></div>
+            </div>
+        </div>`;
+}
+
+function renderModule(mod) {
+    const unlocked = isUnlocked(mod.id);
+    const credits  = mod.unlockRequirement ? getCredits(mod.unlockRequirement.module) : 0;
+    const required = mod.unlockRequirement ? mod.unlockRequirement.credits : 0;
+    const prereqTotal = mod.unlockRequirement
+        ? MODULES[mod.unlockRequirement.module].lessons.length : 0;
+
+    const lockedCls = unlocked ? '' : 'locked';
+
+    const creditBar = mod.unlockRequirement
+        ? renderCreditBar(credits, prereqTotal, required)
+        : '';
+
+    const lessonsHtml = mod.lessons.map((l, i) => {
+        const done      = localStorage.getItem(l.id) === 'true';
+        const statusCls = done ? 'completed' : '';
+        const statusTxt = done ? '✓' : (i + 1);
+        const itemCls   = done ? 'lesson-item completed-lesson' : 'lesson-item';
+        return `
+            <li class="${itemCls}">
+                <a href="${l.file}">
+                    <span>${l.name} ${difficultyLabel(l.difficulty)}</span>
+                    <span class="lesson-status ${statusCls}">${statusTxt}</span>
+                </a>
+            </li>`;
+    }).join('');
+
+    return `
+        <div class="module-card ${lockedCls}" id="module-${mod.id}">
+            <div class="module-header">
+                <span class="module-icon">${mod.icon}</span>
+                <div class="module-title">Modul ${mod.id}: ${mod.name}</div>
+                <div class="module-description">${mod.description}</div>
+            </div>
+            <div class="module-content">
+                ${creditBar}
+                <ul class="lessons-list">${lessonsHtml}</ul>
+                ${isBossAvailable(mod.id)
+                    ? (isBossDefeated(mod.id)
+                        ? `<div class="boss-defeated-badge">⚔️ Boss besiret! 🏆</div>`
+                        : `<a href="boss.html?module=${mod.id}" class="boss-btn">⚔️ Boss-kamp! Fullfør modulen!</a>`)
+                    : ''}
+            </div>
+        </div>`;
+}
+
+function updateStats() {
+    let totalCompleted = 0;
+    let totalLessons   = 0;
+    MODULES.forEach(mod => {
+        totalLessons += mod.lessons.length;
+        totalCompleted += mod.lessons.filter(l => localStorage.getItem(l.id) === 'true').length;
+    });
+    const unlocked = MODULES.filter((_, i) => isUnlocked(i)).length;
+
+    document.getElementById('totalCredits').textContent     = totalCompleted;
+    document.getElementById('completedLessons').textContent = totalCompleted;
+    document.getElementById('unlockedModules').textContent  = unlocked;
+    document.getElementById('totalProgress').textContent    =
+        Math.round((totalCompleted / totalLessons) * 100) + '%';
+}
+
+function render() {
+    const grid = document.getElementById('modulesGrid');
+    grid.innerHTML = MODULES.map(renderModule).join('');
+    updateStats();
+    checkNewBosses();
+}
+
+// ============================================================
+// Boss unlock toast
+// ============================================================
+
+function initBossTracking() {
+    // Mark all currently-available bosses as already seen so we don't
+    // animate them on page load — only newly unlocked ones get the toast.
+    MODULES.forEach(mod => {
+        if (isBossAvailable(mod.id)) {
+            sessionStorage.setItem(`boss_seen_${mod.id}`, 'true');
+        }
+    });
+}
+
+function checkNewBosses() {
+    MODULES.forEach(mod => {
+        if (isBossAvailable(mod.id) && !sessionStorage.getItem(`boss_seen_${mod.id}`)) {
+            sessionStorage.setItem(`boss_seen_${mod.id}`, 'true');
+            showBossUnlockToast(mod.id);
+        }
+    });
+}
+
+function showBossUnlockToast(moduleId) {
+    document.querySelector('.boss-unlock-toast')?.remove();
+    const boss = BOSS_DATA[moduleId];
+    if (!boss) return;
+
+    const el = document.createElement('div');
+    el.className = 'boss-unlock-toast';
+    el.innerHTML = `
+        <div class="boss-toast-label">⚡ Boss låst opp!</div>
+        <div class="boss-toast-body">
+            <div class="boss-toast-sprite">${boss.image ? '<img src="' + boss.image + '" style="height:46px;width:auto;">' : boss.sprite}</div>
+            <div>
+                <div class="boss-toast-name">${boss.name}</div>
+                <div class="boss-toast-sub">${boss.subtitle}</div>
+            </div>
+        </div>
+        <div class="boss-toast-actions">
+            <a href="boss.html?module=${moduleId}" class="boss-toast-fight">⚔️ Til kamp!</a>
+            <button class="boss-toast-dismiss" onclick="this.closest('.boss-unlock-toast').remove()">Lukk</button>
+        </div>`;
+
+    document.body.appendChild(el);
+    setTimeout(() => el?.remove(), 12000);
+}
+
+// Re-render every 5 seconds so completing a lesson in another tab is reflected
+window.onload = () => { initBossTracking(); render(); };
+setInterval(render, 5000);
+
+// Called by auth.js after login completes
+function onAuthComplete() { render(); }
+
+// Fix: second guest button (in register tab) has no id — wire it up
+document.addEventListener('DOMContentLoaded', () => {
+    const g2 = document.getElementById('guestBtn2');
+    if (g2) g2.addEventListener('click', () => {
+        closeAuthModal();
+        render();
+    });
+});
+</script>
+</body>
+</html>

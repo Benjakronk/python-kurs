@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 5 – Skrive til filer</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+
+<div class="container"><div class="course-container">
+
+<h1>Modul 5 – Skrive til filer</h1>
+
+<div class="notification-box windows-note">
+    Fil-operasjoner kjøres i <strong>VSCode</strong>. Nettleseren støtter ikke dette.
+</div>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Skrive tekst til en fil med <code>"w"</code>-modus</li>
+        <li>Legge til tekst uten å overskrive med <code>"a"</code>-modus</li>
+        <li>Skrive flere linjer med en løkke</li>
+        <li>Forstå at "w" sletter alt som var i filen</li>
+    </ul>
+</div>
+
+<h2>Skriv til fil — "w" (write)</h2>
+<div class="code-example">with open("notater.txt", "w", encoding="utf-8") as fil:
+    fil.write("Første linje\n")
+    fil.write("Andre linje\n")</div>
+
+<div class="notification-box important-note">
+    <code>"w"</code> (write) <strong>sletter alt som var i filen</strong> og starter på nytt.
+    Om filen ikke finnes, oppretter den den. Vær forsiktig!
+</div>
+
+<h2>Legg til uten å slette — "a" (append)</h2>
+<div class="code-example">with open("logg.txt", "a", encoding="utf-8") as fil:
+    fil.write("Ny hendelse registrert\n")</div>
+<p><code>"a"</code> legger til på slutten av filen. Perfekt for logg-filer.</p>
+
+<h2>Skrive mange linjer med løkke</h2>
+<div class="code-example">karakterer = [("Ola", 5), ("Kari", 6), ("Per", 3)]
+
+with open("resultater.txt", "w", encoding="utf-8") as fil:
+    fil.write("--- Karakterliste ---\n")
+    for navn, karakter in karakterer:
+        fil.write(f"{navn}: {karakter}\n")</div>
+<div class="expected-output">--- Karakterliste ---
+Ola: 5
+Kari: 6
+Per: 3</div>
+
+<h2>Lese tilbake det du wrote</h2>
+<div class="code-example"># Skriv
+with open("test.txt", "w", encoding="utf-8") as fil:
+    fil.write("Hei!\nHa det!\n")
+
+# Les det tilbake:
+with open("test.txt", "r", encoding="utf-8") as fil:
+    print(fil.read())</div>
+
+<div class="project-box">
+    <h2>📓 Oppgave: Digital dagbok</h2>
+    <p>Lag <code>dagbok.py</code>. En enkel dagbok som lar deg legge til oppføringer og lese alle gamle oppføringer. Bruk "a"-modus for å legge til, og "r"-modus for å lese. Legg til dato og tidspunkt fra <code>datetime</code>-modulen (vi lærer den i modul5-moduler).</p>
+    <p>For nå: bruk bare tekst som ledetekst for hver oppføring.</p>
+</div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg vet at "w" overskriver og "a" legger til</label></li>
+        <li><label><input type="checkbox"> Jeg kan skrive mange linjer med en for-løkke</label></li>
+        <li><label><input type="checkbox"> Jeg har laget dagbokprogrammet i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul5-feilhandtering.html">Feilhåndtering →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script>
+<script>initLesson('modul5_skriv_filer');</script>
+</body></html>

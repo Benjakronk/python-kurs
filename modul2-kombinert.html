@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 2 – Løkker og betingelser</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 2 – Løkker og betingelser kombinert</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Kombinere if-setninger inni løkker</li>
+        <li>Bruke nestede løkker (løkker inni løkker)</li>
+        <li>Bygge praktiske programmer med kontrollflyt</li>
+    </ul>
+</div>
+
+<h2>If inni for — filtrer og velg</h2>
+<div class="python-terminal-container" data-start-code='# FizzBuzz — et klassisk programmeringsintervjuproblem
+for i in range(1, 21):
+    if i % 15 == 0:
+        print("FizzBuzz")
+    elif i % 3 == 0:
+        print("Fizz")
+    elif i % 5 == 0:
+        print("Buzz")
+    else:
+        print(i)'></div>
+
+<h2>Telle med if i løkke</h2>
+<div class="python-terminal-container" data-start-code='# Tell vokalene i en setning
+setning = "Python er gøy å lære"
+antall_vokaler = 0
+
+for bokstav in setning.lower():
+    if bokstav in "aeiouyæøå":
+        antall_vokaler += 1
+
+print(f"Antall vokaler: {antall_vokaler}")'></div>
+
+<h2>Nestede løkker</h2>
+<p>Du kan ha en løkke inni en annen. Den indre løkken kjøres <em>helt ferdig</em> for hver runde i den ytre:</p>
+
+<div class="python-terminal-container" data-start-code='# Multiplikasjonstabell 1-4
+for rad in range(1, 5):
+    for kol in range(1, 5):
+        print(f"{rad}×{kol}={rad*kol}", end="  ")
+    print()  # ny linje etter hver rad'></div>
+
+<h2>Mens løkken leter</h2>
+<div class="python-terminal-container" data-start-code='# Er tallet et primtall?
+tall = 17
+er_prim = True
+
+for i in range(2, tall):
+    if tall % i == 0:
+        er_prim = False
+        break
+
+if er_prim:
+    print(f"{tall} er et primtall")
+else:
+    print(f"{tall} er ikke et primtall")'></div>
+
+<div class="project-box">
+    <h2>🎮 Oppgave: Gjettespill</h2>
+    <p>Lag <code>gjettespill.py</code>:</p>
+    <ul>
+        <li>Programmet velger et hemmelig tall mellom 1 og 20 (<code>hemmelig = 13</code>)</li>
+        <li>Brukeren får 5 forsøk</li>
+        <li>For hvert feil gjett: si om svaret er for høyt eller lavt</li>
+        <li>Gir brukeren riktig forsøk: si «Riktig! Du brukte X forsøk»</li>
+        <li>Bruker alle forsøk: si «Du tapte! Svaret var 13»</li>
+    </ul>
+</div>
+
+<div class="python-terminal-container" data-start-code='hemmelig = 13
+maks_forsok = 5
+
+for forsok in range(1, maks_forsok + 1):
+    gjett = int(input(f"Forsøk {forsok}/{maks_forsok}: "))
+    if gjett == hemmelig:
+        print(f"Riktig! Du brukte {forsok} forsøk.")
+        break
+    elif gjett < hemmelig:
+        print("For lavt!")
+    else:
+        print("For høyt!")
+else:
+    print(f"Du tapte! Svaret var {hemmelig}.")'></div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan kombinere if-setninger inni for og while</label></li>
+        <li><label><input type="checkbox"> Jeg har prøvd nestede løkker</label></li>
+        <li><label><input type="checkbox"> Jeg har laget gjettespillet i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Modul 2 ferdig! <a href="index.html">Se om du kan låse opp Modul 3 →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul2_kombinert');</script>
+</body></html>

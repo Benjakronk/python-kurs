@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 0 – Python og VSCode på Windows</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button">
+    <span>🏠</span>
+    <span class="home-button-text">Tilbake til kurs</span>
+</a>
+<div id="userBadge" class="user-badge">👤</div>
+
+<div class="container">
+<div class="course-container">
+
+<h1>Modul 0 – Python og VSCode på Windows</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <p>Etter denne leksjonen skal du ha:</p>
+    <ul>
+        <li>Installert Python 3 på Windows-PCen din</li>
+        <li>Installert Visual Studio Code</li>
+        <li>Lagt til Python-utvidelsen i VSCode</li>
+        <li>Bekreftet at alt fungerer ved å sjekke versjonen</li>
+    </ul>
+</div>
+
+<h2>Del 1 – Installer Python</h2>
+
+<p>Python er selve programmet som <em>forstår</em> og kjører koden din. Uten det skjer ingenting.</p>
+
+<ol class="step-list">
+    <li>
+        <strong>Åpne nettleseren</strong> og gå til
+        <code>python.org/downloads</code>.
+        Klikk på den store gule knappen — den velger riktig versjon for Windows automatisk.
+    </li>
+    <li>
+        <strong>Kjør installasjonen.</strong>
+        Det første bildet du ser er det viktigste:
+        <br><br>
+        <div class="notification-box important-note">
+            Huk av for <strong>«Add Python to PATH»</strong> helt nederst på det første bildet
+            <em>før</em> du klikker Installer. Uten dette finner ikke terminalen Python.
+        </div>
+        Klikk deretter <strong>Install Now</strong>.
+    </li>
+    <li>
+        Vent til installasjonen er ferdig. Klikk <strong>Close</strong>.
+    </li>
+</ol>
+
+<h3>Sjekk at Python fungerer</h3>
+<p>Åpne <strong>ledetekst</strong> (søk etter «cmd» i Start-menyen) og skriv:</p>
+
+<div class="terminal-command">python --version</div>
+
+<p>Du skal se noe som ligner:</p>
+<div class="expected-output">Python 3.12.4</div>
+
+<div class="notification-box tip">
+    Nøyaktig versjonsnummer (3.12, 3.11, osv.) spiller ingen rolle — bare at det starter med 3.
+    Ser du noe som «Python 2.x», har du en gammel versjon. Last ned ny fra python.org.
+</div>
+
+<h2>Del 2 – Installer Visual Studio Code</h2>
+
+<p>VSCode er editoren du skriver kode i. Den er gratis, rask og veldig populær blant utviklere.</p>
+
+<ol class="step-list">
+    <li>
+        Gå til <code>code.visualstudio.com</code> og klikk <strong>Download for Windows</strong>.
+    </li>
+    <li>
+        Kjør filen du lastet ned. Godta lisensavtalen og klikk deg gjennom installasjonen.
+        Du kan la alle innstillingene stå som de er.
+    </li>
+    <li>
+        La <strong>«Add to PATH»</strong> være avhuket (det er det vanligvis).
+        Klikk <strong>Install</strong> og deretter <strong>Finish</strong>.
+        VSCode åpnes automatisk.
+    </li>
+</ol>
+
+<h2>Del 3 – Legg til Python-utvidelsen</h2>
+
+<p>VSCode støtter hundrevis av programmeringsspråk, men du må installere støtte for hvert språk separat.</p>
+
+<ol class="step-list">
+    <li>
+        I VSCode, klikk på ikonet som ser ut som fire firkanter på venstre side
+        (eller trykk <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>).
+        Dette åpner <strong>Extensions</strong>.
+    </li>
+    <li>
+        Søk etter <code>Python</code>. Den første treffet fra Microsoft (blå verifisert merke)
+        er den riktige. Klikk <strong>Install</strong>.
+    </li>
+    <li>
+        Etter installasjon: trykk <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> og søk
+        etter <strong>«Python: Select Interpreter»</strong>. Velg Python 3.x fra listen.
+        Da vet VSCode hvilken Python-versjon den skal bruke.
+    </li>
+</ol>
+
+<div class="notification-box tip">
+    Installer gjerne også <strong>«Pylance»</strong> — det gir deg bedre autofullføring
+    og hjelp mens du skriver kode.
+</div>
+
+<h2>Del 4 – Sjekk at alt henger sammen</h2>
+
+<p>La oss bekrefte at VSCode og Python kommuniserer:</p>
+
+<ol class="step-list">
+    <li>
+        Opprett en ny mappe på skrivebordet og kall den <code>python-prosjekter</code>.
+    </li>
+    <li>
+        I VSCode: <strong>Fil → Åpne mappe</strong> og velg den nye mappen.
+    </li>
+    <li>
+        Opprett en ny fil: klikk pluss-ikonet i filpanelet til venstre.
+        Kall den <code>test.py</code>.
+    </li>
+    <li>
+        Skriv dette i filen:<br>
+        <div class="code-example">print("Python fungerer! 🎉")</div>
+    </li>
+    <li>
+        Åpne terminalen inne i VSCode: <strong>Terminal → Ny terminal</strong>
+        (eller <kbd>Ctrl</kbd> + <kbd>`</kbd>).
+    </li>
+    <li>
+        I terminalen, skriv:
+        <div class="terminal-command">python test.py</div>
+        Du skal se:
+        <div class="expected-output">Python fungerer! 🎉</div>
+    </li>
+</ol>
+
+<div class="notification-box tip">
+    Ser du en feil? Det vanligste problemet er at «Add Python to PATH» ikke ble huket av
+    under installasjonen. Avinstaller Python og installer på nytt — husk å huke av boksen!
+</div>
+
+<div class="notification-box windows-note">
+    På noen Windows-maskiner heter kommandoen <code>python3</code> istedenfor <code>python</code>.
+    Prøv begge om den ene ikke fungerer.
+</div>
+
+<!-- ============================================================ -->
+<!-- Checklist & completion                                         -->
+<!-- ============================================================ -->
+
+<div class="checklist">
+    <h3>📋 Sjekkliste — fullfør alle punktene</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg har installert Python 3 og sjekket versjon med <code>python --version</code></label></li>
+        <li><label><input type="checkbox"> Jeg har installert Visual Studio Code</label></li>
+        <li><label><input type="checkbox"> Jeg har installert Python-utvidelsen i VSCode</label></li>
+        <li><label><input type="checkbox"> Jeg har kjørt <code>test.py</code> og sett «Python fungerer! 🎉»</label></li>
+    </ul>
+</div>
+
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">
+        ✓ Du har allerede fullført denne leksjonen og fått 1 poeng!
+    </p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">
+        🎉 Bra jobbet! Du har fullført «Python og VSCode på Windows» og fått 1 poeng.
+        Neste leksjon: <a href="modul0-terminal.html">Terminalen på Windows →</a>
+    </div>
+</div>
+
+</div><!-- course-container -->
+</div><!-- container -->
+
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script src="lesson.js"></script>
+<script>
+    initLesson('modul0_oppsett');
+</script>
+</body>
+</html>

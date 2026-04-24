@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 1 – Print og input</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 1 – Print og input</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Skrive tekst og variabler med <code>print()</code> på ulike måter</li>
+        <li>Bruke f-strenger til å sette inn variabler i tekst</li>
+        <li>Hente input fra brukeren med <code>input()</code></li>
+        <li>Konvertere mellom tekststrenger og tall</li>
+    </ul>
+</div>
+
+<h2>Print — mer enn bare tekst</h2>
+<p>Du kan printe mange ting på én linje ved å separere dem med komma:</p>
+<div class="code-example">navn = "Ola"
+alder = 15
+print("Navn:", navn, "– Alder:", alder)</div>
+<div class="expected-output">Navn: Ola – Alder: 15</div>
+
+<h3>F-strenger — den beste måten</h3>
+<p>En f-streng starter med <code>f</code> foran anførselstegnet. Alt inni <code>{}</code> regnes ut automatisk:</p>
+
+<div class="python-terminal-container" data-start-code='navn = "Kari"
+alder = 17
+print(f"Hei, {navn}! Du er {alder} år gammel.")
+print(f"Om 5 år er du {alder + 5} år.")'></div>
+
+<div class="notification-box tip">
+    F-strenger er den moderne og anbefalte måten å sette inn variabler i tekst.
+    Du kan skrive hele uttrykk inni <code>{}</code>, ikke bare variabelnavn.
+</div>
+
+<h3>Print med sep og end</h3>
+<p><code>print()</code> har to nyttige innstillinger:</p>
+<div class="python-terminal-container" data-start-code='# sep = hva som settes mellom verdiene (standard: mellomrom)
+print("eple", "banan", "appelsin", sep=" | ")
+
+# end = hva som kommer til slutt (standard: linjeskift)
+print("Hei", end="")
+print(" der!")  # samme linje som forrige'></div>
+
+<h2>input() — hent svar fra brukeren</h2>
+<p><code>input()</code> stopper programmet og venter på at brukeren skriver noe og trykker Enter. Svaret lagres som en <strong>tekststreng</strong>.</p>
+
+<div class="python-terminal-container" data-start-code='navn = input("Hva heter du? ")
+print(f"Hei, {navn}! Velkommen til Python.")'></div>
+
+<div class="notification-box important-note">
+    <code>input()</code> returnerer <strong>alltid</strong> en tekst (str) — selv om brukeren skriver et tall.
+    <code>"15"</code> og <code>15</code> er ikke det samme i Python.
+</div>
+
+<h3>Konvertere input til tall</h3>
+<p>Om du vil bruke inputen som et tall, må du konvertere den:</p>
+
+<div class="python-terminal-container" data-start-code='tekst_alder = input("Hvor gammel er du? ")
+alder = int(tekst_alder)  # gjør om fra tekst til heltall
+
+print(f"Du er {alder} år.")
+print(f"Om 10 år er du {alder + 10} år.")'></div>
+
+<p>For desimaltall bruker du <code>float()</code> istedenfor <code>int()</code>:</p>
+<div class="code-example">hoyde = float(input("Høyde i meter? "))
+print(f"Du er {hoyde} m høy.")</div>
+
+<div class="project-box">
+    <h2>🖩 Oppgave: Enkel kalkulator</h2>
+    <p>Lag programmet <code>kalkulator.py</code> i VSCode. Det skal:</p>
+    <ol>
+        <li>Be brukeren om to tall (to separate <code>input()</code>-kall)</li>
+        <li>Konvertere begge til <code>float</code></li>
+        <li>Printe summen, differansen, produktet og kvotienten med f-strenger</li>
+    </ol>
+    <div class="expected-output">Tall 1: 8
+Tall 2: 2
+8.0 + 2.0 = 10.0
+8.0 - 2.0 = 6.0
+8.0 * 2.0 = 16.0
+8.0 / 2.0 = 4.0</div>
+    <p>Prøv i terminalen under, deretter i VSCode:</p>
+</div>
+
+<div class="python-terminal-container" data-start-code='tall1 = float(input("Tall 1: "))
+tall2 = float(input("Tall 2: "))
+# Legg til utregninger og print her'></div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan bruke f-strenger til å sette variabler inn i tekst</label></li>
+        <li><label><input type="checkbox"> Jeg kan hente input fra bruker med <code>input()</code></label></li>
+        <li><label><input type="checkbox"> Jeg kan konvertere input til int eller float</label></li>
+        <li><label><input type="checkbox"> Jeg har laget kalkulatoren i VSCode og testet den</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Bra! Neste: <a href="modul1-strenger.html">Tekststrenger →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul1_print_input');</script>
+</body></html>

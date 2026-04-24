@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 5 – Feilhåndtering</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 5 – Feilhåndtering</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Fange feil med <code>try</code> og <code>except</code></li>
+        <li>Håndtere spesifikke feiltyper (ValueError, ZeroDivisionError, osv.)</li>
+        <li>Bruke <code>finally</code> for kode som alltid skal kjøres</li>
+        <li>Lage robuste programmer som ikke krasjer</li>
+    </ul>
+</div>
+
+<h2>Hva er en exception?</h2>
+<p>Når Python møter en feil, kaster den en <em>exception</em>. Uten feilhåndtering krasjer programmet. Med <code>try/except</code> kan du <em>fange</em> feilen og gjøre noe fornuftig i stedet.</p>
+
+<div class="python-terminal-container" data-start-code='# Uten feilhåndtering — krasjer:
+# tall = int("abc")  # ValueError!
+
+# Med feilhåndtering:
+try:
+    tall = int("abc")
+    print(tall)
+except ValueError:
+    print("Det var ikke et gyldig tall!")'></div>
+
+<h2>Vanlige feiltyper</h2>
+<div class="python-terminal-container" data-start-code='# ValueError — feil type data
+try:
+    alder = int(input("Skriv en alder: "))
+    print(f"Du er {alder} år")
+except ValueError:
+    print("Vennligst skriv et heltall!")'></div>
+
+<div class="python-terminal-container" data-start-code='# ZeroDivisionError — dele på null
+try:
+    a = 10
+    b = 0
+    print(a / b)
+except ZeroDivisionError:
+    print("Kan ikke dele på null!")'></div>
+
+<h2>Fange flere feiltyper</h2>
+<div class="python-terminal-container" data-start-code='def sikker_divisjon(a, b):
+    try:
+        resultat = a / b
+        return resultat
+    except ZeroDivisionError:
+        return "Feil: dele på null"
+    except TypeError:
+        return "Feil: ikke et tall"
+
+print(sikker_divisjon(10, 2))
+print(sikker_divisjon(10, 0))
+print(sikker_divisjon(10, "x"))'></div>
+
+<h2>Finally — kjør alltid</h2>
+<p><code>finally</code> kjøres uansett om det var en feil eller ikke. Brukes til opprydding:</p>
+
+<div class="python-terminal-container" data-start-code='try:
+    resultat = 100 / 0
+    print(resultat)
+except ZeroDivisionError:
+    print("Feil oppstod!")
+finally:
+    print("Ferdig — dette printes alltid.")'></div>
+
+<h2>Robust input-innhenting</h2>
+<div class="python-terminal-container" data-start-code='def hent_tall(melding):
+    while True:
+        try:
+            return float(input(melding))
+        except ValueError:
+            print("Ugyldig input — prøv igjen.")
+
+tall = hent_tall("Skriv et tall: ")
+print(f"Du skrev: {tall}")'></div>
+
+<div class="project-box">
+    <h2>🛡️ Oppgave: Sikker kalkulator</h2>
+    <p>Lag <code>sikker_kalkulator.py</code>. Bruk funksjonen <code>hent_tall()</code> fra eksempelet over (kopier den). Programmet spør om to tall og en operasjon (+, -, *, /), og håndterer alle mulige feil:</p>
+    <ul>
+        <li>Ugyldig tall → be om nytt</li>
+        <li>Ukjent operator → si "Ukjent operasjon"</li>
+        <li>Divisjon med null → si "Kan ikke dele på null"</li>
+    </ul>
+</div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan bruke try/except for å fange ValueError og ZeroDivisionError</label></li>
+        <li><label><input type="checkbox"> Jeg kan fange flere feiltyper i samme try-blokk</label></li>
+        <li><label><input type="checkbox"> Jeg kan bruke finally for kode som alltid skal kjøre</label></li>
+        <li><label><input type="checkbox"> Jeg har laget den sikre kalkulatoren i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul5-moduler.html">Nyttige moduler →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul5_feilhandtering');</script>
+</body></html>

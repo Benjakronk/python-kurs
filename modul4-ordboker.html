@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 4 – Ordbøker</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 4 – Ordbøker</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Opprette ordbøker med nøkkel-verdi-par</li>
+        <li>Hente, legge til og endre verdier</li>
+        <li>Slette elementer</li>
+        <li>Iterere over nøkler, verdier og par</li>
+    </ul>
+</div>
+
+<h2>Hva er en ordbok?</h2>
+<p>En ordbok (dict) lagrer data som <strong>nøkkel-verdi-par</strong>. I stedet for å bruke en indeks (0, 1, 2...) bruker du et navn (nøkkel) for å hente verdien.</p>
+
+<div class="python-terminal-container" data-start-code='person = {
+    "navn": "Ola",
+    "alder": 16,
+    "by": "Oslo",
+    "er_student": True
+}
+
+print(person["navn"])     # Ola
+print(person["alder"])    # 16'></div>
+
+<h2>Legge til og endre</h2>
+<div class="python-terminal-container" data-start-code='kontakter = {"Ola": "123 45 678"}
+
+kontakter["Kari"] = "987 65 432"   # legg til ny
+kontakter["Ola"] = "111 22 333"    # endre eksisterende
+
+print(kontakter)'></div>
+
+<h2>Slette</h2>
+<div class="python-terminal-container" data-start-code='data = {"a": 1, "b": 2, "c": 3}
+
+del data["b"]          # slett nøkkel
+print(data)
+
+verdi = data.pop("a")  # slett og returner verdi
+print(verdi, data)'></div>
+
+<h2>Sjekke om nøkkel finnes</h2>
+<div class="python-terminal-container" data-start-code='telefoner = {"Ola": "123 45 678", "Kari": "987 65 432"}
+
+if "Ola" in telefoner:
+    print(f"Olas nummer: {telefoner['Ola']}")
+
+# get() er trygg — returnerer None (eller standard) om nøkkelen ikke finnes:
+print(telefoner.get("Per"))           # None
+print(telefoner.get("Per", "Ukjent")) # "Ukjent"'></div>
+
+<h2>Iterere over ordboken</h2>
+<div class="python-terminal-container" data-start-code='karakterer = {"Matte": 5, "Norsk": 4, "Gym": 6, "Naturfag": 3}
+
+# Bare nøkler:
+for fag in karakterer:
+    print(fag)
+
+print("---")
+
+# Nøkler og verdier:
+for fag, karakter in karakterer.items():
+    print(f"{fag}: {karakter}")'></div>
+
+<div class="project-box">
+    <h2>📱 Oppgave: Telefonbok</h2>
+    <p>Lag <code>telefonbok.py</code> — et program med en dict som telefonbok og en meny:</p>
+    <ul>
+        <li>Søk etter navn → vis nummer</li>
+        <li>Legg til ny kontakt</li>
+        <li>Vis alle kontakter (sortert)</li>
+        <li>Slett kontakt</li>
+    </ul>
+</div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan opprette en ordbok og hente verdier med nøkkel</label></li>
+        <li><label><input type="checkbox"> Jeg kan legge til, endre og slette oppføringer</label></li>
+        <li><label><input type="checkbox"> Jeg kan iterere med .items() for å få begge deler</label></li>
+        <li><label><input type="checkbox"> Jeg har laget telefonboken i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul4-loekker-data.html">Løkker med datastrukturer →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul4_ordboker');</script>
+</body></html>

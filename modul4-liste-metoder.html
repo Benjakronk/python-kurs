@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 4 – Listemetoder</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 4 – Listemetoder</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Legge til elementer med append() og insert()</li>
+        <li>Fjerne elementer med remove() og pop()</li>
+        <li>Sortere med sort() og reverse()</li>
+        <li>Finne elementer med count() og index()</li>
+    </ul>
+</div>
+
+<h2>Legge til elementer</h2>
+<div class="python-terminal-container" data-start-code='frukter = ["eple", "banan"]
+
+frukter.append("appelsin")   # legg til på slutten
+print(frukter)
+
+frukter.insert(1, "mango")   # legg til på indeks 1
+print(frukter)
+
+# Slå to lister sammen:
+flere = ["kiwi", "ananas"]
+frukter.extend(flere)
+print(frukter)'></div>
+
+<h2>Fjerne elementer</h2>
+<div class="python-terminal-container" data-start-code='tall = [1, 2, 3, 4, 5, 2]
+
+tall.remove(2)   # fjerner FØRSTE forekomst av 2
+print(tall)
+
+siste = tall.pop()   # fjerner og returnerer siste element
+print(siste, tall)
+
+tredje = tall.pop(1)  # fjerner og returnerer element på indeks 1
+print(tredje, tall)'></div>
+
+<h2>Sortere og snu</h2>
+<div class="python-terminal-container" data-start-code='tall = [5, 2, 8, 1, 9]
+tall.sort()        # sorterer listen IN PLACE (endrer originalen)
+print(tall)
+
+tall.sort(reverse=True)  # synkende
+print(tall)
+
+tall.reverse()     # snur rekkefølgen
+print(tall)'></div>
+
+<div class="notification-box tip">
+    <code>sort()</code> endrer listen direkte. <code>sorted()</code> (uten punkt) returnerer en ny sortert liste uten å endre originalen. Bruk <code>sorted()</code> om du vil beholde originalen.
+</div>
+
+<h2>Finne informasjon</h2>
+<div class="python-terminal-container" data-start-code='bokstaver = ["a", "b", "c", "a", "d", "a"]
+
+print(bokstaver.count("a"))    # 3 — hvor mange "a"?
+print(bokstaver.index("c"))    # 2 — indeksen til første "c"
+
+bokstaver.clear()              # tøm listen
+print(bokstaver)               # []'></div>
+
+<h2>Bygge lister med for-løkker</h2>
+<div class="python-terminal-container" data-start-code='# Bygg en liste med kvadrattall
+kvadrater = []
+for i in range(1, 6):
+    kvadrater.append(i ** 2)
+
+print(kvadrater)  # [1, 4, 9, 16, 25]
+
+# Samme, kortere (list comprehension):
+kvadrater2 = [i ** 2 for i in range(1, 6)]
+print(kvadrater2)'></div>
+
+<div class="project-box">
+    <h2>📋 Oppgave: Gjøremålsliste</h2>
+    <p>Lag <code>gjoremal.py</code> — et enkelt gjøremålsprogram med en while-meny:</p>
+    <ul>
+        <li>1: Legg til oppgave</li>
+        <li>2: Merk ferdig (fjern)</li>
+        <li>3: Vis alle oppgaver</li>
+        <li>4: Avslutt</li>
+    </ul>
+</div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan legge til elementer med append() og insert()</label></li>
+        <li><label><input type="checkbox"> Jeg kan fjerne med remove() og pop()</label></li>
+        <li><label><input type="checkbox"> Jeg kan sortere med sort()</label></li>
+        <li><label><input type="checkbox"> Jeg har laget gjøremålsprogrammet i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">🎉 Neste: <a href="modul4-ordboker.html">Ordbøker →</a></div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul4_liste_metoder');</script>
+</body></html>

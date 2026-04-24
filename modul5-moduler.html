@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 5 – Nyttige moduler</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<a href="index.html" class="home-button"><span>🏠</span><span class="home-button-text">Tilbake til kurs</span></a>
+<div id="userBadge" class="user-badge">👤</div>
+<script src="https://skulpt.org/js/skulpt.min.js"></script>
+<script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+<div class="container"><div class="course-container">
+
+<h1>Modul 5 – Nyttige moduler</h1>
+
+<div class="learning-goals">
+    <h2>Læringsmål</h2>
+    <ul>
+        <li>Importere og bruke moduler med <code>import</code></li>
+        <li>Bruke <code>random</code> for tilfeldige tall og valg</li>
+        <li>Bruke <code>math</code> for matematiske funksjoner</li>
+        <li>Bruke <code>datetime</code> for dato og tid</li>
+    </ul>
+</div>
+
+<h2>Hva er en modul?</h2>
+<p>En modul er en fil med ferdig kode du kan bruke i ditt eget program. Python kommer med hundrevis av innebygde moduler. Du aktiverer dem med <code>import</code>.</p>
+
+<h2>random — tilfeldighet</h2>
+<div class="python-terminal-container" data-start-code='import random
+
+# Tilfeldig heltall mellom 1 og 6 (inklusivt):
+terning = random.randint(1, 6)
+print(f"Terning: {terning}")
+
+# Tilfeldig valg fra en liste:
+frukter = ["eple", "banan", "appelsin"]
+valgt = random.choice(frukter)
+print(f"Tilfeldig frukt: {valgt}")
+
+# Bland en liste:
+tall = [1, 2, 3, 4, 5]
+random.shuffle(tall)
+print(f"Blandet: {tall}")'></div>
+
+<h2>math — matematikk</h2>
+<div class="python-terminal-container" data-start-code='import math
+
+print(math.pi)              # 3.14159...
+print(math.sqrt(144))       # 12.0 — kvadratrot
+print(math.ceil(4.1))       # 5  — rund opp
+print(math.floor(4.9))      # 4  — rund ned
+print(math.pow(2, 10))      # 1024.0 — potens
+print(math.log(1000, 10))   # 3.0 — logaritme'></div>
+
+<h2>datetime — dato og tid</h2>
+<div class="python-terminal-container" data-start-code='from datetime import datetime
+
+naa = datetime.now()
+print(naa)
+print(f"Dato: {naa.day}.{naa.month}.{naa.year}")
+print(f"Tid: {naa.hour:02d}:{naa.minute:02d}")
+
+# Ukedag (0=mandag, 6=søndag):
+dager = ["Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag","Søndag"]
+print(f"I dag er det {dager[naa.weekday()]}")'></div>
+
+<div class="notification-box tip">
+    <code>from modul import funksjon</code> importerer kun én ting fra en modul.
+    Da kan du skrive <code>datetime.now()</code> istedenfor <code>datetime.datetime.now()</code>.
+</div>
+
+<h2>Importere bare det du trenger</h2>
+<div class="python-terminal-container" data-start-code='from math import sqrt, pi, ceil
+
+# Nå trenger du ikke skrive "math." foran:
+print(sqrt(25))   # 5.0
+print(pi)          # 3.14159...
+print(ceil(3.2))  # 4'></div>
+
+<div class="project-box">
+    <h2>🎲 Oppgave: Kortspill</h2>
+    <p>Lag <code>kortspill.py</code> i VSCode. Bruk random-modulen til å lage et enkelt kortspill:</p>
+    <ul>
+        <li>Lag en liste med alle 52 kort (4 farger × 13 verdier)</li>
+        <li>Bland kortene med <code>random.shuffle()</code></li>
+        <li>Del ut 5 kort til spilleren og 5 til motstanderen</li>
+        <li>Print begge henders og si hvem som har det høyeste enkeltkortet</li>
+    </ul>
+    <p>Tips: du kan representere kortene som strenger, f.eks. <code>"Hjerter A"</code>, <code>"Spar 7"</code></p>
+</div>
+
+<div class="checklist">
+    <h3>📋 Sjekkliste</h3>
+    <ul>
+        <li><label><input type="checkbox"> Jeg kan importere og bruke random (randint, choice, shuffle)</label></li>
+        <li><label><input type="checkbox"> Jeg kan importere og bruke math (sqrt, ceil, floor, pi)</label></li>
+        <li><label><input type="checkbox"> Jeg kan hente dagens dato med datetime</label></li>
+        <li><label><input type="checkbox"> Jeg har laget kortspillet i VSCode</label></li>
+    </ul>
+</div>
+<div class="completion-area">
+    <p id="alreadyCompletedNote" class="already-completed-note" style="display:none;">✓ Allerede fullført!</p>
+    <button class="completion-btn" id="completionBtn">Marker som fullført (+1 poeng)</button>
+    <div class="completion-message" id="completionMsg">
+        🎉 Du har fullført <strong>alle modulene</strong> i Python-kurset! Imponerende!
+        <br><a href="index.html">← Tilbake til kursoversikten</a>
+    </div>
+</div>
+
+</div></div>
+<footer>Copyright © Benjamin Ensrud, 2025</footer>
+<script src="config.js"></script><script src="modal.js"></script><script src="auth.js"></script><script src="lesson.js"></script><script src="python-terminal.js"></script>
+<script>initLesson('modul5_moduler');</script>
+</body></html>
