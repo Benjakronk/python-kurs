@@ -118,10 +118,16 @@ class BossFight {
         this.playerHp -= TIMER_ATTACK_HP;
         this._playAttack();
         this._log(msg, 'log-danger');
-        this._shake(this.playerEl, 'shake');
         this._updateHpBars();
         this._resetTimer();
-        if (this.playerHp <= 0) this._defeat();
+        if (this.playerHp <= 0) {
+            this._defeat();
+        } else {
+            this._playHitParticle(() => {
+                this._playHitAnimation();
+                this._shake(this.playerEl, 'shake-light');
+            });
+        }
     }
 
     // ------------------------------------------------------------------
@@ -172,6 +178,8 @@ class BossFight {
             // Correct!
             this.bossHp -= BOSS_DAMAGE_CORRECT;
             this._playAttack();
+            this._playAttackAnimation();
+            setTimeout(() => this._playSlashEffect(), 180);
             this.resultEl.textContent = '✅ Riktig! Bossens HP synker!';
             this.resultEl.className   = 'boss-result correct';
             this._log(`⚔️ Du traff! Bossen tar ${BOSS_DAMAGE_CORRECT} skade!`, 'log-success');
@@ -196,8 +204,12 @@ class BossFight {
             const msg  = msgs[Math.floor(Math.random() * msgs.length)].replace('{n}', PLAYER_DAMAGE_WRONG);
             this._playAttack();
             this._log(msg, 'log-danger');
-            this._shake(this.playerEl, 'shake');
             this._updateHpBars();
+            this._playHitParticle(() => {
+                if (!this._running) return;
+                this._playHitAnimation();
+                this._shake(this.playerEl, 'shake-light');
+            });
 
             let feedback = `❌ Ikke helt riktig. `;
             if (result.output) feedback += `Output: "${result.output}"`;
@@ -276,6 +288,133 @@ class BossFight {
         this._playerAnimTimer = null;
     }
 
+    _playSlashEffect() {
+        const rect = this.bossSpriteEl.getBoundingClientRect();
+        const cx  = rect.left + rect.width  / 2;
+        const cy  = rect.top  + rect.height / 2;
+        const len = Math.max(rect.width, rect.height) * 1.15;
+
+        const slashes = [
+            { angle: -50, delay:  0, color: '#ffffff' },
+            { angle: -35, delay: 55, color: '#ffc107' },
+            { angle: -60, delay: 28, color: '#ffffffbb' },
+        ];
+
+        slashes.forEach(({ angle, delay, color }) => {
+            setTimeout(() => {
+                const rad    = angle * Math.PI / 180;
+                const startX = cx - Math.cos(rad) * len * 0.5;
+                const startY = cy - Math.sin(rad) * len * 0.5;
+
+                const el = document.createElement('div');
+                el.style.cssText = `
+                    position:fixed; z-index:9999; pointer-events:none;
+                    left:${startX}px; top:${startY}px;
+                    width:${len}px; height:3px; border-radius:2px;
+                    background:linear-gradient(90deg,transparent,${color} 30%,${color} 70%,transparent);
+                    box-shadow:0 0 8px ${color},0 0 16px ${color}88;
+                    transform-origin:left center;
+                    transform:rotate(${angle}deg) scaleX(0); opacity:1;
+                `;
+                document.body.appendChild(el);
+
+                const duration = 270;
+                const t0 = performance.now();
+                const tick = now => {
+                    const t = Math.min((now - t0) / duration, 1);
+                    el.style.transform = `rotate(${angle}deg) scaleX(${Math.min(t / 0.4, 1)})`;
+                    el.style.opacity   = t < 0.45 ? '1' : String(1 - (t - 0.45) / 0.55);
+                    t < 1 ? requestAnimationFrame(tick) : el.remove();
+                };
+                requestAnimationFrame(tick);
+            }, delay);
+        });
+    }
+
+    _playHitParticle(onImpact) {
+        const bossRect   = this.bossSpriteEl.getBoundingClientRect();
+        const playerRect = this.playerEl.getBoundingClientRect();
+
+        const startX = bossRect.left   + bossRect.width   / 2;
+        const startY = bossRect.top    + bossRect.height  / 2;
+        const endX   = playerRect.left + playerRect.width  / 2;
+        const endY   = playerRect.top  + playerRect.height / 2;
+
+        const duration = 300;
+
+        const orb = document.createElement('div');
+        orb.style.cssText = `
+            position:fixed; z-index:9999; pointer-events:none;
+            left:${startX}px; top:${startY}px;
+            width:20px; height:20px; border-radius:50%;
+            background: radial-gradient(circle at 35% 35%, #ffcccc, #dc3545);
+            box-shadow: 0 0 10px #ff4444, 0 0 22px #ff000077;
+            transform: translate(-50%,-50%);
+            transition: left ${duration}ms linear, top ${duration}ms linear;
+        `;
+        document.body.appendChild(orb);
+
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            orb.style.left = endX + 'px';
+            orb.style.top  = endY + 'px';
+        }));
+
+        setTimeout(() => {
+            orb.style.transition = 'transform 0.12s ease-out, opacity 0.12s ease-out';
+            orb.style.transform  = 'translate(-50%,-50%) scale(2.8)';
+            orb.style.opacity    = '0';
+            setTimeout(() => orb.remove(), 160);
+            onImpact();
+        }, duration);
+    }
+
+    _playHitAnimation() {
+        this._stopPlayerAnimation();
+        const frames = [
+            'images/hit1.png',
+            'images/hit2.png',
+            'images/hit3.png',
+            'images/hit4.png',
+            'images/hit5.png',
+            'images/hit6.png',
+        ];
+        const img = this.playerEl?.querySelector('img');
+        if (!img) { this._startPlayerAnimation(); return; }
+        let frame = 0;
+        const advance = () => {
+            img.src = frames[frame++];
+            if (frame < frames.length) {
+                setTimeout(advance, 70);
+            } else {
+                this._startPlayerAnimation();
+            }
+        };
+        advance();
+    }
+
+    _playAttackAnimation() {
+        this._stopPlayerAnimation();
+        const frames = [
+            'images/attack1.png',
+            'images/attack2.png',
+            'images/attack3.png',
+            'images/attack4.png',
+            'images/attack5.png',
+        ];
+        const img = this.playerEl?.querySelector('img');
+        if (!img) { this._startPlayerAnimation(); return; }
+        let frame = 0;
+        const advance = () => {
+            img.src = frames[frame++];
+            if (frame < frames.length) {
+                setTimeout(advance, 80);
+            } else {
+                this._startPlayerAnimation();
+            }
+        };
+        advance();
+    }
+
     _start() {
         this._running = true;
         this._playMusic();
@@ -306,6 +445,60 @@ class BossFight {
         });
     }
 
+    _launchConfetti(originEl) {
+        const rect   = originEl.getBoundingClientRect();
+        const cx     = rect.left + rect.width  / 2;
+        const cy     = rect.top  + rect.height / 2;
+        const colors = ['#ffc107','#ff6b6b','#51cf66','#74c0fc','#f06595','#a9e34b','#ffffff'];
+        const particles = [];
+
+        for (let i = 0; i < 90; i++) {
+            const el    = document.createElement('div');
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const size  = 6 + Math.random() * 7;
+            const rect_ = Math.random() > 0.45;
+            el.style.cssText = `
+                position:fixed; z-index:10000; pointer-events:none;
+                left:${cx}px; top:${cy}px;
+                width:${size}px; height:${rect_ ? size * 0.45 : size}px;
+                background:${color}; border-radius:${rect_ ? '1px' : '50%'};
+            `;
+            document.body.appendChild(el);
+
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 5 + Math.random() * 9;
+            particles.push({
+                el, x: cx, y: cy,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed - 7,
+                gravity: 0.28,
+                rot: Math.random() * 360,
+                rotV: (Math.random() - 0.5) * 14,
+                opacity: 1,
+            });
+        }
+
+        const tick = () => {
+            let alive = false;
+            for (const p of particles) {
+                if (p.opacity <= 0) continue;
+                p.x  += p.vx;
+                p.y  += p.vy;
+                p.vy += p.gravity;
+                p.rot    += p.rotV;
+                p.opacity -= 0.011;
+                const o = Math.max(0, p.opacity);
+                p.el.style.left      = p.x + 'px';
+                p.el.style.top       = p.y + 'px';
+                p.el.style.opacity   = o;
+                p.el.style.transform = `translate(-50%,-50%) rotate(${p.rot}deg)`;
+                if (o > 0) alive = true; else p.el.remove();
+            }
+            if (alive) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+    }
+
     _showScreen(html) {
         this._running = false;
         clearInterval(this._timer);
@@ -325,13 +518,18 @@ class BossFight {
 
         this._showScreen(`
             <div class="end-card victory">
-                <div class="end-icon">🏆</div>
+                <div class="end-icon" id="victoryTrophy">🏆</div>
                 <h2>Boss beseiret!</h2>
                 <p><strong>${this.data.name}</strong> er nedkjempet!</p>
                 <p>Du fullførte alle utfordringene. Imponerende!</p>
                 ${!loggedIn ? `<p style="color:#ffc107;font-size:0.9em;">⚠️ Logg inn for å lagre seieren din!</p>` : ''}
                 <a href="index.html" class="end-btn">← Tilbake til kursoversikten</a>
             </div>`);
+
+        requestAnimationFrame(() => {
+            const trophy = document.getElementById('victoryTrophy');
+            if (trophy) this._launchConfetti(trophy);
+        });
     }
 
     _defeat() {

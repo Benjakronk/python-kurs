@@ -60,6 +60,14 @@
             60%{transform:translateX(-8px)}
             80%{transform:translateX(8px)}
         }
+        .sprite-box.shake-light {
+            animation: bossShakeLight 0.35s ease;
+        }
+        @keyframes bossShakeLight {
+            0%,100%{transform:translateX(0)}
+            30%{transform:translateX(-4px)}
+            60%{transform:translateX(4px)}
+        }
 
         .combatant-name    { color: #ffc107; font-weight: 800; font-size: 1.15em; }
         .combatant-subtitle{ color: #aaa; font-size: 0.8em; margin-bottom: 10px; }
