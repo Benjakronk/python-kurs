@@ -78,6 +78,15 @@ class BossFight {
         setTimeout(() => el.classList.remove(cls), 500);
     }
 
+    _joltBoss() {
+        const img = this.bossSpriteEl.querySelector('img');
+        if (!img) return;
+        img.classList.remove('boss-img-jolt');
+        void img.offsetWidth; // restart animation
+        img.classList.add('boss-img-jolt');
+        setTimeout(() => img.classList.remove('boss-img-jolt'), 500);
+    }
+
     _loadChallenge(idx) {
         const ch = this.challenges[idx];
         this.wrongCount = 0;
@@ -118,16 +127,13 @@ class BossFight {
         this.playerHp -= TIMER_ATTACK_HP;
         this._playAttack();
         this._log(msg, 'log-danger');
-        this._updateHpBars();
         this._resetTimer();
-        if (this.playerHp <= 0) {
-            this._defeat();
-        } else {
-            this._playHitParticle(() => {
-                this._playHitAnimation();
-                this._shake(this.playerEl, 'shake-light');
-            });
-        }
+        this._playHitParticle(() => {
+            this._updateHpBars();
+            this._playHitAnimation();
+            this._shake(this.playerEl, 'shake-light');
+            if (this.playerHp <= 0) this._defeat();
+        });
     }
 
     // ------------------------------------------------------------------
@@ -184,6 +190,7 @@ class BossFight {
             this.resultEl.className   = 'boss-result correct';
             this._log(`⚔️ Du traff! Bossen tar ${BOSS_DAMAGE_CORRECT} skade!`, 'log-success');
             this._shake(this.bossSpriteEl, 'shake');
+            setTimeout(() => this._joltBoss(), 315);
             this._updateHpBars();
 
             if (this.bossHp <= 0) {
@@ -204,11 +211,12 @@ class BossFight {
             const msg  = msgs[Math.floor(Math.random() * msgs.length)].replace('{n}', PLAYER_DAMAGE_WRONG);
             this._playAttack();
             this._log(msg, 'log-danger');
-            this._updateHpBars();
             this._playHitParticle(() => {
                 if (!this._running) return;
+                this._updateHpBars();
                 this._playHitAnimation();
                 this._shake(this.playerEl, 'shake-light');
+                if (this.playerHp <= 0) setTimeout(() => this._defeat(), 400);
             });
 
             let feedback = `❌ Ikke helt riktig. `;
@@ -222,7 +230,6 @@ class BossFight {
             }
 
             this._resetTimer();
-            if (this.playerHp <= 0) setTimeout(() => this._defeat(), 600);
         }
     }
 
@@ -332,40 +339,304 @@ class BossFight {
     }
 
     _playHitParticle(onImpact) {
-        const bossRect   = this.bossSpriteEl.getBoundingClientRect();
-        const playerRect = this.playerEl.getBoundingClientRect();
+        const attacks = [
+            this._attackGhost,
+            this._attackVampire,
+            this._attackLeviathan,
+            this._attackPharaoh,
+            this._attackDragon,
+            this._attackPhoenix,
+        ];
+        (attacks[this.moduleId] || this._attackGhost).call(this, onImpact);
+    }
 
-        const startX = bossRect.left   + bossRect.width   / 2;
-        const startY = bossRect.top    + bossRect.height  / 2;
-        const endX   = playerRect.left + playerRect.width  / 2;
-        const endY   = playerRect.top  + playerRect.height / 2;
+    _combatantPositions() {
+        const b = this.bossSpriteEl.getBoundingClientRect();
+        const p = this.playerEl.getBoundingClientRect();
+        return {
+            bossX:   b.left + b.width  / 2,
+            bossY:   b.top  + b.height / 2,
+            playerX: p.left + p.width  / 2,
+            playerY: p.top  + p.height / 2,
+        };
+    }
 
-        const duration = 300;
+    // Ghost — flickering orb that phases in and out as it drifts toward the player
+    _attackGhost(onImpact) {
+        const { bossX, bossY, playerX, playerY } = this._combatantPositions();
+        const duration = 700;
 
         const orb = document.createElement('div');
         orb.style.cssText = `
-            position:fixed; z-index:9999; pointer-events:none;
-            left:${startX}px; top:${startY}px;
-            width:20px; height:20px; border-radius:50%;
-            background: radial-gradient(circle at 35% 35%, #ffcccc, #dc3545);
-            box-shadow: 0 0 10px #ff4444, 0 0 22px #ff000077;
-            transform: translate(-50%,-50%);
-            transition: left ${duration}ms linear, top ${duration}ms linear;
+            position:fixed;z-index:9999;pointer-events:none;
+            left:${bossX}px;top:${bossY}px;
+            width:26px;height:26px;border-radius:50%;
+            background:radial-gradient(circle at 35% 35%,#e8f0ff,#7799cc);
+            box-shadow:0 0 14px #aabbff,0 0 30px #aabbff55;
+            transform:translate(-50%,-50%);
+            transition:left ${duration}ms ease-in,top ${duration}ms ease-in;
         `;
         document.body.appendChild(orb);
 
+        const flicker = setInterval(() => {
+            orb.style.opacity = Math.random() > 0.35 ? '1' : String(0.05 + Math.random() * 0.3);
+        }, 70);
+
         requestAnimationFrame(() => requestAnimationFrame(() => {
-            orb.style.left = endX + 'px';
-            orb.style.top  = endY + 'px';
+            orb.style.left = playerX + 'px';
+            orb.style.top  = playerY + 'px';
         }));
 
         setTimeout(() => {
-            orb.style.transition = 'transform 0.12s ease-out, opacity 0.12s ease-out';
-            orb.style.transform  = 'translate(-50%,-50%) scale(2.8)';
+            clearInterval(flicker);
+            orb.style.opacity    = '1';
+            orb.style.transition = 'transform 0.18s ease-out,opacity 0.18s ease-out';
+            orb.style.transform  = 'translate(-50%,-50%) scale(3.5)';
             orb.style.opacity    = '0';
-            setTimeout(() => orb.remove(), 160);
+            setTimeout(() => orb.remove(), 220);
             onImpact();
         }, duration);
+    }
+
+    // Vampire — blood particles drain outward from the player and get sucked to the boss
+    _attackVampire(onImpact) {
+        const { bossX, bossY, playerX, playerY } = this._combatantPositions();
+        const count     = 10;
+        const travelMs  = 650;
+
+        setTimeout(onImpact, 80);
+
+        for (let i = 0; i < count; i++) {
+            setTimeout(() => {
+                const angle  = Math.random() * Math.PI * 2;
+                const radius = 20 + Math.random() * 55;
+                const sx     = playerX + Math.cos(angle) * radius;
+                const sy     = playerY + Math.sin(angle) * radius;
+                const size   = 5 + Math.random() * 9;
+
+                const p = document.createElement('div');
+                p.style.cssText = `
+                    position:fixed;z-index:9999;pointer-events:none;
+                    left:${sx}px;top:${sy}px;
+                    width:${size}px;height:${size}px;border-radius:50%;
+                    background:radial-gradient(circle at 35% 35%,#ff9999,#660000);
+                    box-shadow:0 0 8px #cc0000;
+                    transform:translate(-50%,-50%);
+                    transition:left ${travelMs}ms cubic-bezier(0.6,0,1,1),
+                               top ${travelMs}ms cubic-bezier(0.6,0,1,1),
+                               width ${travelMs}ms ease-in,
+                               height ${travelMs}ms ease-in,
+                               opacity ${travelMs}ms ease-in;
+                `;
+                document.body.appendChild(p);
+
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    p.style.left    = bossX + 'px';
+                    p.style.top     = bossY + 'px';
+                    p.style.width   = '3px';
+                    p.style.height  = '3px';
+                    p.style.opacity = '0';
+                }));
+
+                setTimeout(() => p.remove(), travelMs + 60);
+            }, i * 45);
+        }
+    }
+
+    // Leviathan — orbs orbit the player in a tightening spiral, then all hit at once
+    _attackLeviathan(onImpact) {
+        const { playerX, playerY } = this._combatantPositions();
+        const orbCount  = 4;
+        const orbitMs   = 1400;
+        const convergeMs = 240;
+        const start     = performance.now();
+
+        const orbs = Array.from({ length: orbCount }, (_, i) => {
+            const el = document.createElement('div');
+            el.style.cssText = `
+                position:fixed;z-index:9999;pointer-events:none;
+                width:14px;height:14px;border-radius:50%;
+                background:radial-gradient(circle at 35% 35%,#88ffff,#0033cc);
+                box-shadow:0 0 10px #00aaff,0 0 20px #00aaff55;
+                transform:translate(-50%,-50%);
+            `;
+            document.body.appendChild(el);
+            return { el, phase: (i / orbCount) * Math.PI * 2 };
+        });
+
+        const tick = now => {
+            const t      = Math.min((now - start) / orbitMs, 1);
+            const radius = 80 * (1 - t * 0.88);
+            const speed  = 2 + t * 5;
+            const angle  = (now / 300) * speed;
+
+            for (const o of orbs) {
+                const a  = angle + o.phase;
+                o.el.style.left = (playerX + Math.cos(a) * radius) + 'px';
+                o.el.style.top  = (playerY + Math.sin(a) * radius) + 'px';
+            }
+
+            if (t < 1) {
+                requestAnimationFrame(tick);
+            } else {
+                for (const o of orbs) {
+                    o.el.style.transition = `left ${convergeMs}ms ease-in,top ${convergeMs}ms ease-in`;
+                    o.el.style.left = playerX + 'px';
+                    o.el.style.top  = playerY + 'px';
+                }
+                setTimeout(() => {
+                    onImpact();
+                    for (const o of orbs) {
+                        o.el.style.transition = 'transform 0.18s ease-out,opacity 0.18s ease-out';
+                        o.el.style.transform  = 'translate(-50%,-50%) scale(3)';
+                        o.el.style.opacity    = '0';
+                        setTimeout(() => o.el.remove(), 220);
+                    }
+                }, convergeMs);
+            }
+        };
+        requestAnimationFrame(tick);
+    }
+
+    // Pharaoh — a slow golden beam sweeps from the boss across to the player
+    _attackPharaoh(onImpact) {
+        const { bossX, bossY, playerX, playerY } = this._combatantPositions();
+        const dx    = playerX - bossX;
+        const dy    = playerY - bossY;
+        const dist  = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+        const beam = document.createElement('div');
+        beam.style.cssText = `
+            position:fixed;z-index:9999;pointer-events:none;
+            left:${bossX}px;top:${bossY}px;
+            width:${dist}px;height:8px;border-radius:4px;
+            background:linear-gradient(90deg,transparent,#ffcc00 15%,#fff8a0 55%,transparent);
+            box-shadow:0 0 14px #ffcc00,0 0 30px #ffcc0055;
+            transform-origin:left center;
+            transform:translate(0,-50%) rotate(${angle}deg) scaleX(0);
+            transition:transform 0.5s cubic-bezier(0.2,0,0.4,1);
+        `;
+        document.body.appendChild(beam);
+
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            beam.style.transform = `translate(0,-50%) rotate(${angle}deg) scaleX(1)`;
+        }));
+
+        setTimeout(() => {
+            onImpact();
+            beam.style.transition = 'opacity 0.35s ease-out';
+            beam.style.opacity    = '0';
+            setTimeout(() => beam.remove(), 400);
+        }, 600);
+    }
+
+    // Dragon — a spray of ink blobs arc from the boss and splatter on the player
+    _attackDragon(onImpact) {
+        const { bossX, bossY, playerX, playerY } = this._combatantPositions();
+        const count    = 5;
+        let   impacted = false;
+
+        for (let i = 0; i < count; i++) {
+            const delay    = i * 90;
+            const wobX     = (Math.random() - 0.5) * 80;
+            const wobY     = (Math.random() - 0.5) * 60;
+            const size     = 10 + Math.random() * 14;
+            const rx1      = 40 + Math.random() * 30;
+            const rx2      = 30 + Math.random() * 40;
+            const travelMs = 480 + i * 40;
+
+            setTimeout(() => {
+                const blob = document.createElement('div');
+                blob.style.cssText = `
+                    position:fixed;z-index:9999;pointer-events:none;
+                    left:${bossX}px;top:${bossY}px;
+                    width:${size}px;height:${size * (0.7 + Math.random() * 0.6)}px;
+                    border-radius:${rx1}% ${100 - rx1}% ${rx2}% ${100 - rx2}%;
+                    background:radial-gradient(circle at 30% 30%,#cc66ff,#330055);
+                    box-shadow:0 0 8px #aa00cc;
+                    transform:translate(-50%,-50%);
+                    transition:left ${travelMs}ms cubic-bezier(0.25,0.46,0.45,0.94),
+                               top ${travelMs}ms cubic-bezier(0.25,0.46,0.45,0.94);
+                `;
+                document.body.appendChild(blob);
+
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    blob.style.left = (playerX + wobX * (1 - i / count)) + 'px';
+                    blob.style.top  = (playerY + wobY * (1 - i / count)) + 'px';
+                }));
+
+                setTimeout(() => {
+                    blob.style.transition = 'transform 0.18s ease-out,opacity 0.2s';
+                    blob.style.transform  = `translate(-50%,-50%) scale(${1.8 + Math.random()})`;
+                    blob.style.opacity    = '0';
+                    setTimeout(() => blob.remove(), 250);
+                    if (!impacted) { impacted = true; onImpact(); }
+                }, travelMs);
+            }, delay);
+        }
+    }
+
+    // Phoenix — a fast fireball with a lingering ember trail
+    _attackPhoenix(onImpact) {
+        const { bossX, bossY, playerX, playerY } = this._combatantPositions();
+        const duration = 260;
+        const start    = performance.now();
+
+        const orb = document.createElement('div');
+        orb.style.cssText = `
+            position:fixed;z-index:9999;pointer-events:none;
+            width:24px;height:24px;border-radius:50%;
+            background:radial-gradient(circle at 35% 35%,#ffee44,#cc2200);
+            box-shadow:0 0 18px #ff6600,0 0 36px #ff660055;
+            transform:translate(-50%,-50%);
+        `;
+        document.body.appendChild(orb);
+
+        const spawnEmber = (x, y) => {
+            const e    = document.createElement('div');
+            const size = 3 + Math.random() * 5;
+            e.style.cssText = `
+                position:fixed;z-index:9998;pointer-events:none;
+                left:${x}px;top:${y}px;
+                width:${size}px;height:${size}px;border-radius:50%;
+                background:radial-gradient(circle,#ffaa00,#ff3300);
+                box-shadow:0 0 6px #ff6600;
+                transform:translate(-50%,-50%);opacity:1;
+            `;
+            document.body.appendChild(e);
+            let ex = x, ey = y, op = 1;
+            const vx = (Math.random() - 0.5) * 3;
+            const vy = -0.5 - Math.random() * 2;
+            const fade = () => {
+                ex += vx; ey += vy; op -= 0.05;
+                e.style.left    = ex + 'px';
+                e.style.top     = ey + 'px';
+                e.style.opacity = String(Math.max(0, op));
+                op > 0 ? requestAnimationFrame(fade) : e.remove();
+            };
+            requestAnimationFrame(fade);
+        };
+
+        const tick = now => {
+            const t = Math.min((now - start) / duration, 1);
+            const x = bossX + (playerX - bossX) * t;
+            const y = bossY + (playerY - bossY) * t;
+            orb.style.left = x + 'px';
+            orb.style.top  = y + 'px';
+            if (Math.random() > 0.25) spawnEmber(x, y);
+
+            if (t < 1) {
+                requestAnimationFrame(tick);
+            } else {
+                orb.style.transition = 'transform 0.18s ease-out,opacity 0.18s ease-out';
+                orb.style.transform  = 'translate(-50%,-50%) scale(4)';
+                orb.style.opacity    = '0';
+                setTimeout(() => orb.remove(), 220);
+                onImpact();
+            }
+        };
+        requestAnimationFrame(tick);
     }
 
     _playHitAnimation() {

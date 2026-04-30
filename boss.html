@@ -24,6 +24,12 @@
         .boss-arena .combatant-subtitle{ margin-bottom: 6px; }
         .boss-arena .hp-track { width: 100%; margin-top: 10px; height: 16px; }
 
+        /* Keep name/HP above the bleeding sprite image */
+        .boss-arena .combatant-name,
+        .boss-arena .combatant-subtitle,
+        .boss-arena .hp-track,
+        .boss-arena .hp-label { position: relative; z-index: 1; }
+
         /* ── Battle row (player panel + challenge) ── */
         .battle-row { display: flex; gap: 16px; align-items: flex-start; }
 
@@ -67,6 +73,18 @@
             0%,100%{transform:translateX(0)}
             30%{transform:translateX(-4px)}
             60%{transform:translateX(4px)}
+        }
+
+        .boss-img-jolt {
+            animation: bossImgJolt 0.45s ease forwards;
+        }
+        @keyframes bossImgJolt {
+            0%   { filter: brightness(1);                                    transform: translateX(0); }
+            12%  { filter: brightness(6) saturate(0);                        transform: translateX(-7px); }
+            30%  { filter: brightness(2.5) hue-rotate(180deg) saturate(3);   transform: translateX(5px); }
+            55%  { filter: brightness(1.5);                                  transform: translateX(-3px); }
+            78%  { filter: brightness(1.2);                                  transform: translateX(2px); }
+            100% { filter: brightness(1);                                    transform: translateX(0); }
         }
 
         .combatant-name    { color: #ffc107; font-weight: 800; font-size: 1.15em; }

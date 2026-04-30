@@ -9,6 +9,7 @@ const BOSS_DATA = {
         image: 'images/ghost.png',
         subtitle: 'Hjemsøker alle som ikke kan print()',
         bossHp: 400,
+        attackTheme: { c1: '#e8f0ff', c2: '#7799cc', glow: '#aabbff' },
         attackMessages: [
             '👻 Spøkelset slukker skjermen din! −{n} HP',
             '👻 «Du glemte anførselstegnene!» −{n} HP',
@@ -68,6 +69,7 @@ const BOSS_DATA = {
         image: 'images/vampire.png',
         subtitle: 'Mester i variabler og datatyper',
         bossHp: 400,
+        attackTheme: { c1: '#ff7777', c2: '#660000', glow: '#cc0000' },
         attackMessages: [
             '🧛 Vampyren suger energi fra variablene dine! −{n} HP',
             '🧛 «Variablene dine er mine!» roper Vampyren! −{n} HP',
@@ -127,6 +129,7 @@ const BOSS_DATA = {
         image: 'images/leviathan.png',
         subtitle: 'Herre over if-setninger og løkker',
         bossHp: 400,
+        attackTheme: { c1: '#88ffff', c2: '#0033cc', glow: '#00aaff' },
         attackMessages: [
             '🐉 Leviatan sender en uendelig løkke! −{n} HP',
             '🐉 En falsk betingelse treffer deg! −{n} HP',
@@ -186,6 +189,7 @@ const BOSS_DATA = {
         image: 'images/pharaoh.png',
         subtitle: 'Voktere av alle funksjoner',
         bossHp: 400,
+        attackTheme: { c1: '#fff0a0', c2: '#aa7000', glow: '#ffcc00' },
         attackMessages: [
             '🏺 Farao kaller på feil funksjon! −{n} HP',
             '🏺 «Din funksjon returnerer None!» −{n} HP',
@@ -245,6 +249,7 @@ const BOSS_DATA = {
         image: 'images/dragon.png',
         subtitle: 'Arkivaren av lister og ordbøker',
         bossHp: 400,
+        attackTheme: { c1: '#ee88ff', c2: '#550088', glow: '#aa00cc' },
         attackMessages: [
             '🐙 Dragen blander alle listene dine! −{n} HP',
             '🐙 IndexError! −{n} HP',
@@ -304,6 +309,7 @@ const BOSS_DATA = {
         image: 'images/phoenix.png',
         subtitle: 'Mesteren av unntak og moduler',
         bossHp: 400,
+        attackTheme: { c1: '#ffee44', c2: '#cc2200', glow: '#ff6600' },
         attackMessages: [
             '🔥 Føniks kaster en ukjent exception! −{n} HP',
             '🔥 ModuleNotFoundError treffer! −{n} HP',
